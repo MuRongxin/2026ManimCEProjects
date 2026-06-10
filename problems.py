@@ -357,7 +357,7 @@ def problem_06(text_size: int = DEFAULT_TEXT_SIZE,
         _T(" 两技术小组，要求每组 ", font_size=ts),
         _M(r"4", font_size=ms),
         _T(" 人，且甲、乙", font_size=ts),
-        _T("必须在一组，丙、丁不能在一组，则分配的方案种数为", font_size=ts),
+        _T("必须在一组，丙、丁不能在一组，则不同的分配方案种数为", font_size=ts),
     )
     if wrap_after is not None:
         stem = _wrap_stem(stem, wrap_after)
