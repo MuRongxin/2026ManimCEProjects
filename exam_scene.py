@@ -22,7 +22,7 @@ CLR_CRIMSON     = ManimColor("#C1003C")   # 深红 / 暗红
 CLR_CYAN_DEEP   = ManimColor("#11999e")   # 深青色
 CLR_ROSE        = ManimColor("#ff2e63")   # 玫红 / 亮粉
 CLR_MINT        = ManimColor("#79D87E")   # 薄荷绿
-CLR_CREAM       = ManimColor("#fff4e1")   # 奶油 / 米黄
+CLR_CREAM       = ManimColor("#fffb1f")   # 奶油 / 米黄
 CLR_SALMON      = ManimColor("#ffaaa5")   # 浅粉 / 三文鱼
 CLR_SKY         = ManimColor("#b9d7ea")   # 天蓝
 CLR_CORNFLOWER  = ManimColor("#7dace4")   # 矢车菊蓝
@@ -295,21 +295,133 @@ class Q123(Scene):
         q1=problems.problem_01()
         q1.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
 
-        sol1 = VGroup(
-            MathTex(r"= 1 - 6i + 9i^2", color=CLR_CREAM, font_size=28),
-            MathTex(r"= 1 - 6i - 9", color=CLR_CREAM, font_size=28),
-            MathTex(r"= -8 - 6i", color=CLR_CREAM, font_size=28),
-        )
-        sol1.arrange(DOWN, aligned_edge=LEFT, buff=0.2)
-        sol1.next_to(q1, RIGHT, buff=1.5).align_to(q1, UP)
+        # q1 解答：接在等号后面，逐个写出
+        stem1 = q1[0]
+        eq1 = stem1[1]  # MathTex "(1-3i)^2 ="
+        s1_1 = MathTex(r"= 1 - 6i + 9i^2", color=CLR_ROSE, stroke_width=1, font_size=33)
+        s1_2 = MathTex(r"= 1 - 6i - 9", color=CLR_ROSE, stroke_width=1, font_size=33)
+        s1_3 = MathTex(r"= -8 - 6i", color=CLR_ROSE, stroke_width=1, font_size=33)
+        s1_1.next_to(eq1, RIGHT, buff=0.1, aligned_edge=ORIGIN)
+        s1_2.next_to(s1_1, RIGHT, buff=0.15, aligned_edge=ORIGIN)
+        s1_3.next_to(s1_2, RIGHT, buff=0.15, aligned_edge=ORIGIN)
 
         q2=problems.problem_02()
-        q2.next_to(q1,DOWN,buff=1).align_to(q1,LEFT)
+        q2.next_to(q1,DOWN,buff=.55).align_to(q1,LEFT)
+
+        # q2 结果接在等号后面
+        stem2 = q2[0]
+        eq2 = stem2[5]  # MathTex "A \cap B ="
+        ans2 = MathTex(r"\{0,1\}", color=CLR_ROSE, stroke_width=1, font_size=28)
+        ans2.next_to(eq2, RIGHT, buff=0.1, aligned_edge=DOWN)
+
+        # q2 求解过程放在题目下方，逐行排列
+        s2_1 = MathTex(r"\sqrt{x}=x \Rightarrow x=x^2 \Rightarrow x(x-1)=0",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s2_2 = MathTex(r"\Rightarrow x=0 \text{ or } x=1 \Rightarrow B=\{0,1\}",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s2_3 = MathTex(r"A \cap B = \{0,1,3,6,9\} \cap \{0,1\} = \{0,1\}",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+
+        s2_1.next_to(q2, DOWN, buff=0.2)
+        s2_2.next_to(s2_1, DOWN, buff=0.15, aligned_edge=LEFT)
+        s2_3.next_to(s2_1, RIGHT, buff=0.44)
+
         q3=problems.problem_03()
-        q3.next_to(q2,DOWN,buff=1.2).align_to(q2,LEFT)
+        q3.next_to(q2,DOWN,buff=1.5).align_to(q2,LEFT)
+
+        # q3 结果接在等号后面
+        stem3 = q3[0]
+        eq3 = stem3[7]  # MathTex "\boldsymbol{a}\cdot\boldsymbol{b} ="
+        ans3 = MathTex(r"-2", color=CLR_ROSE, stroke_width=1, font_size=33)
+        ans3.next_to(eq3, RIGHT, buff=0.1, aligned_edge=DOWN)
+
+        # q3 求解过程放在题目下方
+        s3_1 = MathTex(r"|\boldsymbol{a}+\boldsymbol{b}|^2=1 \Rightarrow \boldsymbol{a}^2+2\boldsymbol{a}\cdot\boldsymbol{b}+\boldsymbol{b}^2=1",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s3_2 = MathTex(r"|\boldsymbol{a}-\boldsymbol{b}|^2=9 \Rightarrow \boldsymbol{a}^2-2\boldsymbol{a}\cdot\boldsymbol{b}+\boldsymbol{b}^2=9",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s3_3 = MathTex(r"\text{Subtract: } 4\boldsymbol{a}\cdot\boldsymbol{b}=-8 \Rightarrow \boldsymbol{a}\cdot\boldsymbol{b}=-2",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s3_1.next_to(q3, DOWN, buff=0.1).align_to(stem3[1], LEFT)
+        s3_2.next_to(s3_1, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        breace3 = Brace(VGroup(s3_1,s3_2), RIGHT, buff=0.15)
+        s3_3.next_to(breace3, RIGHT, buff=0.2)
 
         self.play(Write(q1))
-        self.play(Write(sol1))
         self.play(Write(q2))
         self.play(Write(q3))
+
+        self.play(LaggedStart(Write(s1_1), Write(s1_2), Write(s1_3), lag_ratio=0.4))
+        self.wait(2)
+        self.play(LaggedStart(Write(s2_1), Write(s2_2), Write(s2_3), Write(ans2), lag_ratio=0.4))
+        self.wait(2)
+        self.play(LaggedStart(Write(s3_1), Write(s3_2), Create(breace3), Write(s3_3), Write(ans3), lag_ratio=0.4))
+
+        self.wait(2)
+
+class Q4(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"求双曲线 渐近线方程",font_size=31)
+        self.play(title)
+
+        q4=problems.problem_04()
+        q4.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+
+        # q4 解答过程放在题目下方
+        s4_1 = MathTex(r"(1,0) \in C \Rightarrow \frac{1}{a^2}=1 \Rightarrow a^2=1",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s4_2 = MathTex(r"\left(\frac{\sqrt{7}}{2},3\right) \in C \Rightarrow \frac{7}{4} - \frac{9}{b^2}=1",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s4_3 = MathTex(r"\Rightarrow \frac{9}{b^2}=\frac{3}{4} \Rightarrow b^2=12 \Rightarrow b=2\sqrt{3}",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s4_4 = MathTex(r"y=\pm \frac{b}{a}x = \pm 2\sqrt{3}\,x",
+                       color=CLR_ROSE, stroke_width=1, font_size=41)
+                       
+        s4_1.next_to(q4, DOWN, buff=0.3).align_to(q4[1], LEFT)
+        s4_2.next_to(s4_1, DOWN, buff=0.15, aligned_edge=LEFT)
+        s4_3.next_to(VGroup(s4_1,s4_2), RIGHT, buff=0.25, )
+        s4_4.next_to(s4_3, DOWN, buff=0.7)
+
+        self.play(Write(q4))
+        self.play(LaggedStart(
+            Write(s4_1), Write(s4_2), Write(s4_3), Write(s4_4),
+            lag_ratio=1,
+        ))
+        self.wait(2)
+
+class Q5(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"菱形面积公式  棱台体积公式",font_size=31)
+        self.play(title)
+
+        q5=problems.problem_05(wrap_after=3)
+        q5.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+
+        self.play(Write(q5))
+
+        # q5 解答过程放在题目下方
+        s5_1 = MathTex(r"S=a^2\sin 60^{\circ}=\frac{\sqrt{3}}{2}a^2",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s5_2 = MathTex(r"S_1=\frac{\sqrt{3}}{2}\times 9=\frac{9\sqrt{3}}{2},\quad "
+                       r"S_2=\frac{\sqrt{3}}{2}\times 4=2\sqrt{3}",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s5_3 = MathTex(r"\sqrt{S_1 S_2}=\sqrt{\frac{9\sqrt{3}}{2}\times 2\sqrt{3}}"
+                       r"=\sqrt{27}=3\sqrt{3}",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s5_4 = MathTex(r"V=\frac{h}{3}\left(S_1+S_2+\sqrt{S_1 S_2}\right)"
+                       r"=\frac{\sqrt{3}}{3}\left(\frac{9\sqrt{3}}{2}+2\sqrt{3}+3\sqrt{3}\right)",
+                       color=CLR_CREAM, stroke_width=1, font_size=33)
+        s5_5 = MathTex(r"=\frac{\sqrt{3}}{3}\times\frac{19\sqrt{3}}{2}=\frac{19}{2}",
+                       color=CLR_ROSE, stroke_width=1, font_size=41)
+        s5_1.next_to(q5, DOWN, buff=0.3).align_to(q5, LEFT)
+        s5_2.next_to(s5_1, DOWN, buff=0.15, aligned_edge=LEFT)
+        s5_3.next_to(s5_2, DOWN, buff=0.15, aligned_edge=LEFT)
+        s5_4.next_to(s5_3, DOWN, buff=0.15, aligned_edge=LEFT)
+        s5_5.next_to(s5_4, RIGHT, buff=0.15, )
+
+        self.play(LaggedStart(
+            Write(s5_1), Write(s5_2), Write(s5_3), Write(s5_4), Write(s5_5),
+            lag_ratio=0.4,
+        ))
         self.wait(2)
