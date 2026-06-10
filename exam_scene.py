@@ -1,3 +1,4 @@
+from cairo import FontSlant
 from click import option
 from matplotlib.axes import Axes
 from matplotlib.sankey import DOWN
@@ -199,28 +200,116 @@ class ExamTitleScene(MovingCameraScene):
         q17=problems.problem_17().scale(.7)
         q17.next_to(q16, DOWN, buff=1.8).align_to(q16, LEFT)
 
-        q18=problems.problem_18().scale(.7)
+        q18=problems.problem_18(wrap_after=8).scale(.7)
         q18.next_to(q16, RIGHT, buff=1.5).align_to(q16, UP)
 
-        self.camera.frame.shift(DOWN*15)
-        self.play(LaggedStart(
-            Write(section2),
-            Write(q9),
-            Write(q10),
-            Write(q11),
+        q19=problems.problem_19(wrap_after=6).scale(.7)
+        q19.next_to(q18, DOWN, buff=1).align_to(q18, LEFT)
 
-            Write(section3),
-            Write(q12),
-            Write(q13),
-            Write(q14),
+        
+        self.play(AnimationGroup(
+            self.camera.frame.animate.shift(DOWN*7.4),
+            LaggedStart(
+                Write(section2),
+                Write(q9),
+                Write(q10),
+                Write(q11),
 
-            Write(section4),
-            Write(q15),
-            Write(q16),
-            Create(q16Graph),
-            Write(q17),
-            Write(q18),
+                Write(section3),
+                Write(q12),
+                Write(q13),
+                Write(q14),
 
-        ))
+                Write(section4),
+                Write(q15),
+                lag_ratio=0.3,
+            ),lag_ratio=0
+        ), run_time=10)
 
-# class Q1(Scene):
+        self.play(
+            self.camera.frame.animate.shift(DOWN*7.7),
+            LaggedStart(
+                Write(q16),
+                Create(q16Graph),
+                Write(q17),
+                Write(q18),
+                Write(q19),
+                lag_ratio=0.4,
+            ),
+         run_time=8)
+
+        self.wait(2)
+
+        self.play(self.camera.frame.animate.shift(UP*7.7),run_time=10)
+
+
+def AddTitle(self,title="temp",font=FONT_SERIF ,color:str=CLR_TEAL,font_size=35,stroke_width=1.5,stroke_color=CLR_TEAL):
+        title=Text(
+            title,  # 标题文本内容    
+            font=font,  
+            font_size=font_size, 
+            stroke_width=stroke_width,
+            
+        ).to_corner(UL)
+        
+        title_back=Rectangle(
+            width=title.width,
+            height=title.height,
+            fill_opacity=1,
+            color=color
+        ).move_to(title.get_center()+LEFT*3+DOWN*.2)
+
+
+        title_back_pos=title_back.animate.move_to(title.get_center()+DOWN*.2+RIGHT*.2)
+        
+        
+        self.add(title_back)  
+
+        return LaggedStart(
+            Write(title),
+            title_back_pos,
+            lag_ratio=0.3,
+        ) , title_back
+
+def EmphasizeTexts(self,targets:Mobject,color:str=YELLOW,stroke_width=4,buff=0):
+        animes=[]
+        recs=VGroup()
+        for target in targets:        
+            rec_target=Circumscribe(target,color=color,stroke_width=stroke_width,buff=buff)
+            animes.append(rec_target)
+            rec2_target=SurroundingRectangle(target,color=color,
+                                             stroke_width=stroke_width,
+                                             buff=buff)
+            animes.append(Create(rec2_target))
+            recs.add(rec2_target)
+        
+        self.play(LaggedStart(*animes,lag_ratio=.3))
+        return recs
+
+
+class Q123(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"2026 新高考二卷 解析",font_size=31)        
+        self.play(title)
+
+        q1=problems.problem_01()
+        q1.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+
+        sol1 = VGroup(
+            MathTex(r"= 1 - 6i + 9i^2", color=CLR_CREAM, font_size=28),
+            MathTex(r"= 1 - 6i - 9", color=CLR_CREAM, font_size=28),
+            MathTex(r"= -8 - 6i", color=CLR_CREAM, font_size=28),
+        )
+        sol1.arrange(DOWN, aligned_edge=LEFT, buff=0.2)
+        sol1.next_to(q1, RIGHT, buff=1.5).align_to(q1, UP)
+
+        q2=problems.problem_02()
+        q2.next_to(q1,DOWN,buff=1).align_to(q1,LEFT)
+        q3=problems.problem_03()
+        q3.next_to(q2,DOWN,buff=1.2).align_to(q2,LEFT)
+
+        self.play(Write(q1))
+        self.play(Write(sol1))
+        self.play(Write(q2))
+        self.play(Write(q3))
+        self.wait(2)

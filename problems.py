@@ -219,7 +219,7 @@ def problem_02(text_size: int = DEFAULT_TEXT_SIZE,
         _T("2．若 ", font_size=ts),
         _M(r"A = \{0,1,3,6,9\}", font_size=ms),
         _T("，", font_size=ts),
-        _M(r"B = \{x \mid x=x\}", font_size=ms),
+        _M(r"B = \{x \mid \sqrt{x}=x\}", font_size=ms),
         _T("，则 ", font_size=ts),
         _M(r"A \cap B =", font_size=ms),
     )
@@ -947,14 +947,18 @@ def problem_17(text_size: int = DEFAULT_TEXT_SIZE,
 
 # ---- 第 18 题 ----
 def problem_18(text_size: int = DEFAULT_TEXT_SIZE,
-               math_size: int = DEFAULT_MATH_SIZE) -> VGroup:
-    """椭圆与轨迹"""
+               math_size: int = DEFAULT_MATH_SIZE,
+               wrap_after: int = None) -> VGroup:
+    """椭圆与轨迹
+    wrap_after: 题干第二行在指定元素之后换行（如 8 = " 截得的" 之后）
+    """
     ts = text_size
     ms = math_size
 
     lines = VGroup()
     lines.add(_stem_vgroup(_T("18．", font_size=ts), _T("（17 分）", font_size=ts)))
-    lines.add(_stem_vgroup(
+
+    stem_body = _stem_vgroup(
         _T("椭圆 ", font_size=ts),
         _M(r"E: \frac{x^2}{a^2} + y^2 = 1\,(a>1)", font_size=ms),
         _T("，过 ", font_size=ts),
@@ -963,10 +967,14 @@ def problem_18(text_size: int = DEFAULT_TEXT_SIZE,
         _M("x", font_size=ms),
         _T(" 轴垂直的直线被 ", font_size=ts),
         _M("E", font_size=ms),
-        _T(" 截得的长度为 ", font_size=ts),
+        _T(" 截得的", font_size=ts),
+        _T("长度为 ", font_size=ts),
         _M("2", font_size=ms),
         _T("．", font_size=ts),
-    ))
+    )
+    if wrap_after is not None:
+        stem_body = _wrap_stem(stem_body, wrap_after)
+    lines.add(stem_body)
     lines.add(_stem_vgroup(
         _T("（1）求 ", font_size=ts),
         _M("E", font_size=ms),
@@ -1046,14 +1054,18 @@ def problem_18(text_size: int = DEFAULT_TEXT_SIZE,
 
 # ---- 第 19 题 ----
 def problem_19(text_size: int = DEFAULT_TEXT_SIZE,
-               math_size: int = DEFAULT_MATH_SIZE) -> VGroup:
-    """函数与导数"""
+               math_size: int = DEFAULT_MATH_SIZE,
+               wrap_after: int = None) -> VGroup:
+    """函数与导数
+    wrap_after: 题干第二行在指定元素之后换行（如 6 = " 处的切线为 " 之后）
+    """
     ts = text_size
     ms = math_size
 
     lines = VGroup()
     lines.add(_stem_vgroup(_T("19．", font_size=ts), _T("（17 分）", font_size=ts)))
-    lines.add(_stem_vgroup(
+
+    stem_body = _stem_vgroup(
         _T("已知函数 ", font_size=ts),
         _M(r"f(x) = xe^x + ax + b", font_size=ms),
         _T("，曲线 ", font_size=ts),
@@ -1063,7 +1075,10 @@ def problem_19(text_size: int = DEFAULT_TEXT_SIZE,
         _T(" 处的切线为 ", font_size=ts),
         _M("y=-2x+1", font_size=ms),
         _T("．", font_size=ts),
-    ))
+    )
+    if wrap_after is not None:
+        stem_body = _wrap_stem(stem_body, wrap_after)
+    lines.add(stem_body)
     lines.add(_stem_vgroup(
         _T("（1）求 ", font_size=ts),
         _M("a", font_size=ms),
