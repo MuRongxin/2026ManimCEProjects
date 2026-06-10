@@ -1,7 +1,5 @@
 from cairo import FontSlant
 from click import option
-from matplotlib.axes import Axes
-from matplotlib.sankey import DOWN
 
 from manim import *
 import problems
@@ -40,14 +38,14 @@ class ExamTitleScene(MovingCameraScene):
 
         # ---------- 绝密 ★ 启用前 ----------
         top_secret = Text("绝密★启用前", font=FONT_SERIF, color=CLR_CRIMSON, font_size=21)
-        top_secret.to_edge(UP, buff=.2)
+        top_secret.to_edge(UP)
 
         # ---------- 大标题 ----------
         title = Text("2026 年普通高等学校招生全国统一考试",
                      font=FONT_SERIF, color=CLR_CREAM, font_size=22)
         title.next_to(top_secret, DOWN, buff=0.2).to_edge(LEFT)
 
-        top_secret.next_to(title, UP, buff=0.2)
+        top_secret.to_corner(UL, buff=.2)
 
         # ---------- "数学" ----------
         subject = Text("数  学", font=FONT_SERIF, color=CLR_CREAM, font_size=41)
@@ -78,13 +76,11 @@ class ExamTitleScene(MovingCameraScene):
         notice_texts.align_to(notice_title, LEFT)
 
         # ---------- 动画 ----------
-        self.play(FadeIn(top_secret, shift=RIGHT * 0.3), run_time=0.3)
+        self.play(Write(top_secret), run_time=0.3)
         self.wait(0.3)
-        self.play(FadeIn(title, shift=RIGHT * 0.3), run_time=0.3)
-        self.wait(0.3)
-        self.play(FadeIn(subject, shift=RIGHT * 0.3), run_time=.3)
-        self.wait(0.5)
-        self.play(FadeIn(notice_title, shift=RIGHT * 0.2), run_time=0.3)
+        self.play(Write(title), run_time=0.3)
+        self.play(Write(subject), run_time=.3)
+        self.play(Write(notice_title), run_time=0.3)
 
         
 
@@ -240,7 +236,7 @@ class ExamTitleScene(MovingCameraScene):
 
         self.wait(2)
 
-        self.play(self.camera.frame.animate.shift(UP*7.7),run_time=10)
+        self.play(self.camera.frame.animate.shift(UP*15),run_time=10)
 
 
 def AddTitle(self,title="temp",font=FONT_SERIF ,color:str=CLR_TEAL,font_size=35,stroke_width=1.5,stroke_color=CLR_TEAL):
@@ -414,7 +410,7 @@ class Q5(Scene):
                        color=CLR_CREAM, stroke_width=1, font_size=33)
         s5_5 = MathTex(r"=\frac{\sqrt{3}}{3}\times\frac{19\sqrt{3}}{2}=\frac{19}{2}",
                        color=CLR_ROSE, stroke_width=1, font_size=41)
-        s5_1.next_to(q5, DOWN, buff=0.3).align_to(q5, LEFT)
+        s5_1.next_to(q5[1], DOWN, buff=0.3).align_to(q5, LEFT)
         s5_2.next_to(s5_1, DOWN, buff=0.15, aligned_edge=LEFT)
         s5_3.next_to(s5_2, DOWN, buff=0.15, aligned_edge=LEFT)
         s5_4.next_to(s5_3, DOWN, buff=0.15, aligned_edge=LEFT)
@@ -422,6 +418,6 @@ class Q5(Scene):
 
         self.play(LaggedStart(
             Write(s5_1), Write(s5_2), Write(s5_3), Write(s5_4), Write(s5_5),
-            lag_ratio=0.4,
+            lag_ratio=0.9,
         ))
         self.wait(2)
