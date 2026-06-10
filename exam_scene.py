@@ -427,13 +427,55 @@ class Q6(Scene):
 
         q6=problems.problem_06(wrap_after=8)
         q6.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
-
         self.play(Write(q6))
+        self.wait(2)
 
+        # === 文字步骤 ===
         s6_1 = Text("Step 1：甲、乙必在同一组，分两类——同在 A 或同在 B",
                     font=FONT_CN, color=CLR_CREAM, font_size=28)
         s6_2 = Text("Step 2：丙、丁不能同组，剩余 4 人选 1 人填充",
                     font=FONT_CN, color=CLR_CREAM, font_size=28)
+        s6_1.next_to(q6[1], DOWN, buff=0.4).align_to(q6, LEFT)
+        s6_2.next_to(s6_1, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        self.play(Write(s6_1), Write(s6_2))
+
+        # === 右下角：A/B 两组位置示意图 ===
+        slot_w = 0.25
+        slots_A = VGroup(*[
+            Line(LEFT * slot_w, RIGHT * slot_w, color=RED, stroke_width=3)
+            for _ in range(4)
+        ])
+        slots_B = VGroup(*[
+            Line(LEFT * slot_w, RIGHT * slot_w, color=BLUE, stroke_width=3)
+            for _ in range(4)
+        ])
+        slots_A.arrange(RIGHT, buff=0.2)
+        slots_B.arrange(RIGHT, buff=0.2)
+
+        slots_B.to_corner(DR, buff=0.8).shift(UP * 0.3)
+        slots_A.next_to(slots_B, LEFT, buff=0.8, aligned_edge=DOWN)
+
+        brace_A = Brace(slots_A, DOWN, buff=0.15)
+        brace_B = Brace(slots_B, DOWN, buff=0.15)
+        lbl_A = Text("A", font=FONT_CN, color=RED, font_size=28).next_to(brace_A, DOWN, buff=0.1)
+        lbl_B = Text("B", font=FONT_CN, color=BLUE, font_size=28).next_to(brace_B, DOWN, buff=0.1)
+
+        self.play(
+            LaggedStart(*[Create(s) for s in slots_A + slots_B], lag_ratio=0.1),
+            Create(brace_A), Create(brace_B),
+            Write(lbl_A), Write(lbl_B),
+        )
+
+        # === Case 1：甲、乙在 A ===
+        jia = Text("甲", font=FONT_CN, color=RED, font_size=26)
+        yi  = Text("乙", font=FONT_CN, color=RED, font_size=26)
+        jia.next_to(slots_A[0], UP, buff=0.1)
+        yi.next_to(slots_A[1], UP, buff=0.1)
+
+        self.play(Write(jia), Write(yi))
+
+        # 情况说明文字
         s6_3_a = Text("甲、乙在 A：丙去 A 则丁去 B → ", font=FONT_CN, color=CLR_CREAM, font_size=28)
         s6_3_m1 = MathTex(r"C_4^1", color=CLR_CREAM, stroke_width=1, font_size=33)
         s6_3_b = Text(" = 4；丁去 A 则丙去 B → ", font=FONT_CN, color=CLR_CREAM, font_size=28)
@@ -441,71 +483,57 @@ class Q6(Scene):
         s6_3_c = Text(" = 4", font=FONT_CN, color=CLR_CREAM, font_size=28)
         s6_3 = VGroup(s6_3_a, s6_3_m1, s6_3_b, s6_3_m2, s6_3_c)
         s6_3.arrange(RIGHT, buff=0.08, aligned_edge=DOWN)
+        s6_3.next_to(s6_2, DOWN, buff=0.2, aligned_edge=LEFT)
 
+        self.play(Write(s6_3))
 
+        # === 演示 丙→A, 丁→B ===
+        bing = Text("丙", font=FONT_CN, color=RED, font_size=29)
+        ding = Text("丁", font=FONT_CN, color=BLUE, font_size=29)
+        bing.next_to(slots_A[2], UP, buff=0.1)
+        ding.next_to(slots_B[0], UP, buff=0.1)
 
+        # 圈出 A 组剩余的 1 个空位
+        remain_A = SurroundingRectangle(slots_A[3], color=YELLOW, stroke_width=5, buff=0.1)
+
+        self.play(Write(bing), Write(ding), Create(remain_A))
+
+        self.wait(1)
+
+        self.play(
+             bing.animate.next_to(slots_B[0], UP, buff=0.1),
+             ding.animate.next_to(slots_A[2], UP, buff=0.1),             
+        )
+        self.wait(0.5)
+
+        # === 演示 丁→A, 丙→B（交换） ===
+        bing2 = Text("丙", font=FONT_CN, color=RED, font_size=29)
+        ding2 = Text("丁", font=FONT_CN, color=BLUE, font_size=29)
+        bing2.next_to(slots_B[2], UP, buff=0.1)
+        ding2.next_to(slots_A[3], UP, buff=0.1)
+
+        remain_A2 = SurroundingRectangle(slots_B[3], color=YELLOW, stroke_width=5, buff=0.1)
+
+        self.wait(2)
+        
+
+        # === s6_4 & s6_5 结论 ===
         s6_4 = Text("甲、乙在 B：同理，共 4+4 = 8",
                     font=FONT_CN, color=CLR_CREAM, font_size=28)
         s6_5 = Text("总计：8+8 = 16",
                     font=FONT_CN, color=CLR_ROSE, font_size=36)
-
-        s6_1.next_to(q6[1], DOWN, buff=0.4).align_to(q6, LEFT)
-        s6_2.next_to(s6_1, DOWN, buff=0.2, aligned_edge=LEFT)
-        s6_3.next_to(s6_2, DOWN, buff=0.2, aligned_edge=LEFT)
         s6_4.next_to(s6_3, DOWN, buff=0.2, aligned_edge=LEFT)
         s6_5.next_to(s6_4, DOWN, buff=0.3, aligned_edge=LEFT)
+        self.play(Write(s6_4))
+        self.play(
+                    jia.animate.next_to(slots_B[0], UP, buff=0.1),
+                    yi.animate.next_to(slots_B[1], UP, buff=0.1),
+                    
+                    FadeOut(bing), FadeOut(ding), FadeOut(remain_A),
+                    Write(ding2), Write(bing2), Create(remain_A2),
+                )
 
         
-
-        # === 右下角：4 个剩余位置示意 ===
-        slots1 = VGroup(*[
-            Line(LEFT * 0.25, RIGHT * 0.25, color=BLUE, stroke_width=3)
-            for _ in range(4)
-        ])
-
-        slots2 = VGroup(*[
-                    Line(LEFT * 0.25, RIGHT * 0.25, color=RED, stroke_width=3)
-                    for _ in range(4)
-                ])
-        slots1.arrange(RIGHT, buff=0.2)
-        slots2.arrange(RIGHT, buff=0.2)        
-
-        slots1.to_corner(DR, buff=1)
-        slots2.next_to(slots1, LEFT, buff=0.7)
-
-        brace1 = Brace(slots1, DOWN, buff=0.2)
-        brace2 = Brace(slots2, DOWN, buff=0.2)
-        textA = Text("A", font=FONT_CN, color=BLUE, font_size=28)
-        textB = Text("B", font=FONT_CN, color=BLUE, font_size=28)
-
-        textA.next_to(brace2, DOWN, buff=0.1)
-        textB.next_to(brace1, DOWN, buff=0.1)
-
-        braceGroup = VGroup(brace1, textA, brace2, textB)
-
-        self.play(LaggedStart(*[Create(s) for s in slots1+slots2],Create(braceGroup), lag_ratio=0.3))
-
-
-        self.play(LaggedStart(
-                    Write(s6_1), Write(s6_2), Write(s6_3),
-                    lag_ratio=1,
-                ))
-
-        self.wait(1)
-
-        text1 = Text("甲", font=FONT_CN, color=BLUE, font_size=28)
-        text2 = Text("乙", font=FONT_CN, color=BLUE, font_size=28)
-        text1.next_to(slots2[0], UP, buff=0.1)
-        text2.next_to(slots2[1], UP, buff=0.1)
-
-        text3 = Text("丙", font=FONT_CN, color=BLUE, font_size=28)
-        text4 = Text("丁", font=FONT_CN, color=BLUE, font_size=28)
-
-        self.play(LaggedStart(Create(text1)), Create(text2))
-
-
-        self.play(LaggedStart(
-                    Write(s6_4), Write(s6_5),
-                    lag_ratio=1,
-                ))
+        self.wait(1)        
+        self.play(Write(s6_5))        
         self.wait(2)
