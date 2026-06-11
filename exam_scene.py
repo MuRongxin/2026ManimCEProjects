@@ -593,3 +593,150 @@ class Q7(Scene):
         ))
         self.play(Write(s7_7))
         self.wait(2)
+
+
+class Q8(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"函数性质 周期与奇偶",font_size=31)
+        self.play(title)
+
+        q8=problems.problem_08()
+        q8.next_to(titlePos,DOWN,buff=.4).align_to(titlePos,LEFT)
+        self.play(Write(q8))
+
+        # === Step 1 ===
+        s8_1 = VGroup(
+            Text("Step 1：", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"f(x)+f(x-2)=0 \;\xrightarrow{x\to x+2}\; f(x+2)+f(x)=0 \Rightarrow f(x+2)=-f(x)",
+                    color=BLUE, stroke_width=1, font_size=33),
+        ).arrange(RIGHT, buff=0.1)
+        s8_1.next_to(q8[1], DOWN, buff=0.4).align_to(q8, LEFT)
+
+        e8_1 = VGroup(
+            Text("将 x 换为 x+2：", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"f(x+2)+f(x)=0", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，移项得 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"f(x+2)=-f(x)", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        e8_1.next_to(s8_1, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        self.play(Write(s8_1))
+        self.wait(0.5)    
+       
+        self.play(Write(e8_1))
+ 
+        self.wait(2)
+        self.play(FadeOut(e8_1))
+
+        # === Step 2 ===
+        s8_2 = VGroup(
+            Text("Step 2：", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"f(x+4)=-f(x+2)=f(x)", color=BLUE, stroke_width=1, font_size=33),
+            Text("，周期 T = 4", font=FONT_CN, color=CLR_CREAM, font_size=28),
+        ).arrange(RIGHT, buff=0.1)
+        s8_2.next_to(s8_1, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e8_2 = VGroup(
+            MathTex(r"x \Rightarrow x+2:\;",
+                                color=BLUE, stroke_width=1, font_size=28),
+            MathTex(r"f(x+4)=f((x+2)+2)=-f(x+2)=-(-f(x))=f(x)",
+                    color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，周期 T = 4", font=FONT_CN, color=CLR_SKY, font_size=24),
+        ).arrange(RIGHT, buff=0.08)
+        e8_2.next_to(s8_2, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        self.play(Write(s8_2))
+        self.wait(0.5)
+
+        s8_emp1=EmphasizeTexts(self, [s8_1[1][0][-12:]],buff=.2, color=RED)
+        self.play(Write(e8_2))
+        self.wait(2)
+        self.play(FadeOut(e8_2,s8_emp1))
+
+        # === Step 3 ===
+        s8_3 = VGroup(
+            Text("Step 3：由周期和偶函数，", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"f(\frac{3}{2})=f(-\frac{5}{2})=f(\frac{5}{2})",
+                    color=BLUE, stroke_width=1, font_size=33),
+        ).arrange(RIGHT, buff=0.1)
+        s8_3.next_to(s8_2, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e8_3 = VGroup(
+            MathTex(r"f(\frac{3}{2})=f(\frac{3}{2}-4)=f(-\frac{5}{2})",
+                    color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("（周期 4）；再由偶函数 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"f(-\frac{5}{2})=f(\frac{5}{2})", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        e8_3.next_to(s8_3, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        self.play(Write(s8_3))
+        self.wait(0.5)
+        self.play(Write(e8_3))
+        self.wait(2)
+        self.play(FadeOut(e8_3))
+
+        # === Step 4：代入公式求 a ===
+        s8_4 = MathTex(r"\frac{9}{4}+\frac{3}{2}a+b = \frac{25}{4}+\frac{5}{2}a+b",
+                       color=BLUE, stroke_width=1, font_size=33)
+        s8_4.next_to(s8_3, DOWN, buff=0.2, aligned_edge=LEFT)
+        
+
+        self.play(Write(s8_4))
+        self.wait(2)
+        
+
+        s8_5 = MathTex(r"\Rightarrow a=-4", color=BLUE, stroke_width=1, font_size=33)
+        s8_5.next_to(s8_4, RIGHT, buff=0.2)
+        self.play(Write(s8_5))
+        self.wait(1)
+
+        # === Step 5：求 f(1)=0 ===
+        s8_6 = VGroup(
+            Text("Step 4：原式令 x=1：", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"f(1)+f(-1)=0", color=BLUE, stroke_width=1, font_size=33),
+            Text("，偶函数 f(-1)=f(1) ⇒ ", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"f(1)=0", color=BLUE, stroke_width=1, font_size=33),
+        ).arrange(RIGHT, buff=0.1)
+        s8_6.next_to(s8_4, DOWN, buff=0.3).align_to(s8_3, LEFT)
+
+        e8_6 = VGroup(
+            Text(" 令 x=1：f(1)+f(-1)=0。偶函数 f(-1)=f(1)，故 2f(1)=0 ⇒ f(1)=0",
+                  font=FONT_CN, color=CLR_SKY, font_size=24),
+        ).arrange(RIGHT, buff=0.08)
+        e8_6.next_to(s8_6, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        self.play(Write(s8_6))
+        self.wait(1)
+        self.play(Write(e8_6))
+        self.wait(2)
+        self.play(FadeOut(e8_6))
+
+        # === Step 6：由 f(3)=0 求 b ===
+        s8_7 = VGroup(
+            Text("Step 6：", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"f(x+2)=-f(x)", color=BLUE, stroke_width=1, font_size=33),
+            Text(" 令 x=1 ⇒ ", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"f(3)=-f(1)=0", color=BLUE, stroke_width=1, font_size=33),
+        ).arrange(RIGHT, buff=0.1)
+        s8_7.next_to(s8_6, DOWN, buff=0.3, aligned_edge=LEFT)
+
+        e8_7 = VGroup(
+            Text("3∈[3/2,3]，代入公式：", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"f(3)=9+3a+b=0", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，a=-4 ⇒ ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"9-12+b=0 \Rightarrow b=3", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        e8_7.next_to(s8_7, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        self.play(Write(s8_7))
+        self.wait(1)
+        self.play(Write(e8_7))
+        self.wait(2)
+        self.play(FadeOut(e8_7))
+
+        # === 结论 ===
+        s8_8 = MathTex(r"a=-4,\;b=3", color=CLR_ROSE, stroke_width=1, font_size=41)
+        s8_8.next_to(s8_7, DOWN, buff=0.1)
+
+        self.play(Write(s8_8))
+        self.wait(2)
