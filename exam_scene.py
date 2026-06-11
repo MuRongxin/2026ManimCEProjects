@@ -740,3 +740,123 @@ class Q8(Scene):
 
         self.play(Write(s8_8))
         self.wait(2)
+
+
+class Q9(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"圆的方程 圆与圆的位置关系",font_size=31)
+        self.play(title)
+
+        q9=problems.problem_09()
+        q9.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+        self.play(Write(q9))
+
+        # === 配方求 ⊙A 圆心半径 ===
+        s9_1 = VGroup(
+            Text("配方求 圆A 的圆心和半径", font=FONT_CN, color=CLR_CREAM, font_size=28),
+        )
+        s9_1.next_to(q9, RIGHT, buff=0.3).align_to(q9, UP)
+
+        s9_2 = MathTex(r"\odot A:\; x^2+y^2-6x-8y+k=0",
+                       color=BLUE, stroke_width=1, font_size=33)
+        s9_2.next_to(s9_1, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        s9_3 = MathTex(r"\Rightarrow (x-3)^2+(y-4)^2=25-k",
+                       color=BLUE, stroke_width=1, font_size=33)
+        s9_3.next_to(s9_2, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        s9_4 = VGroup(
+            Text("圆心 ", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"A(3,4)", color=BLUE, stroke_width=1, font_size=33),
+            Text("，半径 ", font=FONT_CN, color=CLR_CREAM, font_size=28),
+            MathTex(r"r=\sqrt{25-k}", color=BLUE, stroke_width=1, font_size=33),
+        ).arrange(RIGHT, buff=0.1)
+        s9_4.next_to(s9_3, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        
+        self.play(LaggedStart(
+            Write(s9_1), Write(s9_2), 
+            Write(s9_3), Write(s9_4),lag_ratio=.5))
+        self.wait(2)
+
+        
+        circle_a=s9_3[0][1:].copy().scale(.9).set_color(CLR_ROSE).next_to(
+            q9[0][4][0][3],DOWN,buff=.1,aligned_edge=LEFT)
+
+        self.play(ReplacementTransform(
+            VGroup(s9_1,s9_2,s9_3,s9_4),
+            circle_a)
+        )
+        
+        
+        
+        
+        
+        
+        
+        # === 逐项判断 ===
+        # A
+        s9_A =Text("✗ ", font=FONT_CN, color=RED, font_size=25)      
+        s9_A.next_to(q9[1][0], RIGHT, buff=0.15)
+        self.play(Write(s9_A))
+        self.wait(1)
+
+        # B        
+
+        e9_B = VGroup(
+            Text("k=9 ⇒ ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"r=\sqrt{25-9}=4", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，圆心 A(3,4) 到 x 轴距离 = |4| = 4 = r ⇒ 相切 ✓",
+                  font=FONT_CN, color=CLR_SKY, font_size=24),
+        ).scale(1.3).arrange(RIGHT, buff=0.08)
+        e9_B.next_to(q9[1], DOWN, buff=0.7, aligned_edge=LEFT)
+
+        optionB=Text("✓",font=FONT_CN, color=RED, font_size=25,
+                     stroke_width=1,stroke_color=RED
+                     ).next_to(q9[1][1], RIGHT, buff=0.15)
+
+        self.play( Write(e9_B))
+        self.wait(2)
+        self.play(ReplacementTransform(e9_B,optionB))
+        self.wait(1)
+
+
+
+        # C
+        e9_C = VGroup(
+            Text("k=−11 ⇒ ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"r_A=\sqrt{25-(-11)}=6", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，两圆圆心距：|OA|=5，",
+                  font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"r_A-r_o=5=|OA|", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，内切",
+                              font=FONT_CN, color=CLR_SKY, font_size=24),
+        ).arrange(RIGHT, buff=0.08).scale(1.3)
+        e9_C.next_to(q9[1], DOWN, buff=0.5, aligned_edge=LEFT)
+
+        optionC=Text("✓",font=FONT_CN, color=RED, font_size=25,
+                     stroke_width=1,stroke_color=RED
+                     ).next_to(q9[1][2], RIGHT, buff=0.15)
+
+        self.play(Write(e9_C))
+        self.wait(1.5)
+        self.play(ReplacementTransform(e9_C,optionC))
+
+        # D
+        
+
+        e9_D = VGroup(
+            Text("两圆相减得根轴：", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"6x+8y-k-1=0", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，非 k−2 ⇒ ✗", font=FONT_CN, color=CLR_SKY, font_size=24),
+        ).arrange(RIGHT, buff=0.08).scale(1.3)
+        e9_D.next_to(q9[1], DOWN, buff=0.5, aligned_edge=LEFT)
+
+        optionD=Text("✗",font=FONT_CN, color=RED, font_size=25,
+                     stroke_width=1,stroke_color=RED
+                     ).next_to(q9[1][3], RIGHT, buff=0.15)
+        self.play(Write(e9_D))
+        self.wait(1.5)
+        self.play(ReplacementTransform(e9_D,optionD))
+
+        self.wait(2)
