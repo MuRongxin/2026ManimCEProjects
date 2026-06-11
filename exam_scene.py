@@ -497,7 +497,7 @@ class Q6(Scene):
         remain_A = SurroundingRectangle(slots_A[3], color=YELLOW, stroke_width=5, buff=0.1)
 
         self.play(Write(bing), Write(ding), Create(remain_A))
-
+ 
         self.wait(1)
 
         self.play(
@@ -534,6 +534,62 @@ class Q6(Scene):
                 )
 
         
-        self.wait(1)        
-        self.play(Write(s6_5))        
+        self.wait(1)
+        self.play(Write(s6_5))
+        self.wait(2)
+
+
+class Q7(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"三角函数化简求值",font_size=31)
+        self.play(title)
+
+        q7=problems.problem_07()
+        q7.next_to(titlePos,DOWN,buff=.4).align_to(titlePos,LEFT)
+        self.play(Write(q7))
+
+        s7_1 = Text("Step 1：利用二倍角公式展开 sin2α = 2sinα cosα",
+                    font=FONT_CN, color=CLR_CREAM, font_size=28)
+        s7_2_a = Text("3 · 2sinα cosα · cosα = 8sinα cos2α  ⇒  ", font=FONT_CN, color=CLR_ROSE, font_size=28)
+        s7_2_m = MathTex(r"6\sin\alpha\cos^2\alpha=8\sin\alpha\cos2\alpha",
+                         color=CLR_ROSE, stroke_width=1, font_size=33)
+        s7_2 = VGroup(s7_2_a, s7_2_m).arrange(RIGHT, buff=0.1).scale(1.1)
+
+        s7_3 = Text("Step 2：α 在第二象限，sinα ≠ 0，两边约去 2sinα",
+                    font=FONT_CN, color=CLR_CREAM, font_size=28)
+        s7_4 = MathTex(r"3\cos^2\alpha=4\cos2\alpha=4(2\cos^2\alpha-1)",
+                       color=CLR_ROSE, stroke_width=1, font_size=37)
+        s7_5 = MathTex(r"\Rightarrow \cos^2\alpha=\frac{4}{5},\;"
+                       r"\sin^2\alpha=1-\frac{4}{5}=\frac{1}{5}",
+                       color=BLUE, stroke_width=1, font_size=37)
+        s7_6_a = Text("Step 3：α 在第二象限：cosα < 0, sinα > 0  ⇒  ", font=FONT_CN, color=CLR_CREAM, font_size=28)
+        s7_6_m = MathTex(r"\cos\alpha=-\frac{2}{\sqrt{5}},\;"
+                         r"\sin\alpha=\frac{1}{\sqrt{5}}",
+                         color=CLR_CREAM, stroke_width=1, font_size=33)
+        s7_6 = VGroup(s7_6_a, s7_6_m).arrange(RIGHT, buff=0.1)
+
+        s7_7 = MathTex(r"\frac{1+\sin\alpha}{2-\cos\alpha}"
+                       r"=\frac{1+\frac{1}{\sqrt{5}}}{2+\frac{2}{\sqrt{5}}}"
+                       r"=\frac{\sqrt{5}+1}{2(\sqrt{5}+1)}"
+                       r"=\frac{1}{2}",
+                       color=CLR_ROSE, stroke_width=1, font_size=36)
+
+        s7_1.next_to(q7[1], DOWN, buff=0.4).align_to(q7[1], LEFT)
+        s7_2.next_to(s7_1[5], DOWN, buff=0.2, aligned_edge=LEFT)
+        s7_3.next_to(s7_2, DOWN, buff=0.2).align_to(s7_1, LEFT)
+        s7_4.next_to(s7_3[5], DOWN, buff=0.2, aligned_edge=LEFT)
+        s7_5.next_to(s7_4, RIGHT, buff=0.2, aligned_edge=ORIGIN)
+        s7_6.next_to(s7_5, DOWN, buff=0.1).align_to(s7_3, LEFT)
+        s7_7.next_to(s7_6, DOWN, buff=0.1)
+
+        self.play(LaggedStart(
+            Write(s7_1), Write(s7_2), Write(s7_3),
+            lag_ratio=0.9,
+        ))
+        self.wait(1.5)
+        self.play(LaggedStart(
+            Write(s7_4), Write(s7_5), Write(s7_6),
+            lag_ratio=0.9,
+        ))
+        self.play(Write(s7_7))
         self.wait(2)
