@@ -796,7 +796,7 @@ class Q9(Scene):
         
         # === 逐项判断 ===
         # A
-        s9_A =Text("✗ ", font=FONT_CN, color=RED, font_size=25)      
+        s9_A =Text("✗ ", font=FONT_CN, color=RED, font_size=20)      
         s9_A.next_to(q9[1][0], RIGHT, buff=0.15)
         self.play(Write(s9_A))
         self.wait(1)
@@ -811,7 +811,7 @@ class Q9(Scene):
         ).scale(1.3).arrange(RIGHT, buff=0.08)
         e9_B.next_to(q9[1], DOWN, buff=0.7, aligned_edge=LEFT)
 
-        optionB=Text("✓",font=FONT_CN, color=RED, font_size=25,
+        optionB=Text("✓",font=FONT_CN, color=RED, font_size=20,
                      stroke_width=1,stroke_color=RED
                      ).next_to(q9[1][1], RIGHT, buff=0.15)
 
@@ -834,7 +834,7 @@ class Q9(Scene):
         ).arrange(RIGHT, buff=0.08).scale(1.3)
         e9_C.next_to(q9[1], DOWN, buff=0.5, aligned_edge=LEFT)
 
-        optionC=Text("✓",font=FONT_CN, color=RED, font_size=25,
+        optionC=Text("✓",font=FONT_CN, color=RED, font_size=20,
                      stroke_width=1,stroke_color=RED
                      ).next_to(q9[1][2], RIGHT, buff=0.15)
 
@@ -852,11 +852,138 @@ class Q9(Scene):
         ).arrange(RIGHT, buff=0.08).scale(1.3)
         e9_D.next_to(q9[1], DOWN, buff=0.5, aligned_edge=LEFT)
 
-        optionD=Text("✗",font=FONT_CN, color=RED, font_size=25,
+        optionD=Text("✗",font=FONT_CN, color=RED, font_size=20,
                      stroke_width=1,stroke_color=RED
                      ).next_to(q9[1][3], RIGHT, buff=0.15)
         self.play(Write(e9_D))
         self.wait(1.5)
         self.play(ReplacementTransform(e9_D,optionD))
 
+        self.wait(2)
+
+
+class Q10(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"等比数列 前 n 项和",font_size=31)
+        self.play(title)
+
+        q10=problems.problem_10(option_layout="row")
+        q10.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+
+        self.play(Write(q10))
+
+        # === 求公比 q ===
+        s10_1 = VGroup(
+            Text("由 ", font=FONT_CN, color=CLR_CREAM, font_size=20),
+            MathTex(r"2a_3=a_1+a_2", color=BLUE, stroke_width=1, font_size=30),
+            Text(" 求公比", font=FONT_CN, color=CLR_CREAM, font_size=20),
+        ).arrange(RIGHT, buff=0.1)
+        s10_1.next_to(q10[1], DOWN, buff=0.4).align_to(q10, LEFT)
+
+        s10_2 = MathTex(r"2a_1q^2=a_1+a_1q \;\xrightarrow{a_1>0}\; 2q^2=1+q",
+                        color=BLUE, stroke_width=1, font_size=30)
+        s10_2.next_to(s10_1, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        s10_3 = MathTex(r"2q^2-q-1=0 \;\Rightarrow\; (2q+1)(q-1)=0",
+                        color=BLUE, stroke_width=1, font_size=30)
+        s10_3.next_to(s10_2, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        s10_4 = VGroup(
+            MathTex(r"\because q\neq1 \;\Rightarrow\; q=-\frac{1}{2}", color=CLR_SKY, stroke_width=1, font_size=30),
+        )
+        s10_4.next_to(s10_3, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        # === 通项与前 n 项和 ===
+        s10_5 = MathTex(r"\therefore a_n=a_1\left(-\frac{1}{2}\right)^{n-1}",
+                        color=CLR_ROSE, stroke_width=1, font_size=28)
+        s10_5.next_to(s10_4, DOWN, buff=0.3,aligned_edge=LEFT)
+
+        s10_6 = MathTex(r"\therefore S_n=\frac{a_1(1-q^n)}{1-q}"
+                        r"=\frac{a_1\left[1-\left(-\frac{1}{2}\right)^n\right]}{\frac{3}{2}}"
+                        r"=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)^n\right]",
+                        color=CLR_ROSE, stroke_width=1, font_size=20)
+        s10_6.next_to(s10_5, DOWN, buff=0.2,aligned_edge=LEFT)
+
+        
+
+        self.play(LaggedStart(
+            Write(s10_1), Write(s10_2), Write(s10_3), Write(s10_4),lag_ratio=.8))
+        self.wait(1)
+        self.play(Write(s10_5))
+        self.wait(1)
+        self.play(Write(s10_6))
+
+        # === B 选项：右侧分析 ===
+        s10_B1 = VGroup(
+            Text("B. ", font=FONT_CN, color=CLR_CREAM, font_size=20),
+            MathTex(r"S_n>\frac{2}{3}a_1", color=BLUE, stroke_width=1, font_size=25),
+            Text(" ？", font=FONT_CN, color=CLR_CREAM, font_size=20),
+        ).arrange(RIGHT, buff=0.1)
+        s10_B1.next_to(s10_1, RIGHT, buff=4).align_to(s10_1, UP)
+
+        s10_B1_1 = VGroup(
+                    MathTex(r"\frac{2}{3}a_1 > 0", color=GOLD, stroke_width=1, font_size=25),
+                    Text(" 恒成立。", font=FONT_CN, color=GOLD, font_size=20),
+                ).arrange(RIGHT, buff=0.1)
+        
+        s10_B2 = MathTex(r"S_n=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)^n\right]",
+                         color=BLUE, stroke_width=1, font_size=25)
+        s10_B2.next_to(s10_B1, DOWN, buff=0.2, aligned_edge=LEFT)
+        s10_B1_1.next_to(s10_B2, RIGHT, buff=0.4)
+
+        s10_B3 = VGroup(
+            Text("当 n 为奇数：", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(
+                r"\left(-\frac{1}{2}\right)^n<0 \;\Rightarrow\; ",
+                r"1-\left(-\frac{1}{2}\right)^n >1 \;\Rightarrow\;",
+                r"S_n>\frac{2a_1}{3}",
+                    color=CLR_ROSE, stroke_width=1, font_size=25),
+        ).arrange(RIGHT, buff=0.1)
+        s10_B3.next_to(s10_B2, DOWN, buff=0.2, aligned_edge=LEFT)
+
+
+        s10_B3_line1=Line(
+            s10_B3[1][1][0:9].get_corner(DL), s10_B3[1][1][0:9].get_corner(DR),
+            color=CLR_CREAM
+        )
+
+        s10_B3_line2=Line(
+                    s10_B3[1][1][-2].get_corner(DL), s10_B3[1][1][-2].get_corner(DR),
+                    color=CLR_CREAM
+                ).align_to(s10_B3_line1, DOWN)
+
+        s10_B3_text1=s10_B1_1[0][0][0:5].copy().next_to(s10_B3_line1, DOWN, buff=0.1)
+        s10_B3_text2=s10_B1_1[0][0][0:5].copy().next_to(s10_B3_line2, DOWN, buff=0.1)
+
+        s10_B4 = VGroup(
+            Text("当 n 为偶数：", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(
+                r"\left(-\frac{1}{2}\right)^n>0 \;\Rightarrow\; ",
+                r"1-\left(-\frac{1}{2}\right)^n <1 \;\Rightarrow\;",
+                r"S_n<\frac{2a_1}{3}",
+                    color=CLR_ROSE, stroke_width=1, font_size=25),
+        ).arrange(RIGHT, buff=0.1)
+        s10_B4.next_to(s10_B3, DOWN, buff=0.8, aligned_edge=LEFT)
+        
+
+        self.play(Write(s10_B1))
+        self.wait(1)
+        self.play(LaggedStart(            
+            Write(s10_B2),Write(s10_B1_1), Write(s10_B3), 
+            lag_ratio=.9
+        ))
+        self.play(LaggedStart(
+            Create(s10_B3_line1),
+            Create(s10_B3_line2),
+            Write(s10_B3_text1),
+            Write(s10_B3_text2),
+            lag_ratio=.3
+            )
+        )
+        self.wait(.5)
+
+
+        self.play(LaggedStart(
+            Write(s10_B4),lag_ratio=.9
+        ))
         self.wait(2)
