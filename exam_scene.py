@@ -1088,7 +1088,16 @@ class Q10(Scene):
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.15)
         s10_D2_expand.next_to(s10_D2_terms, DOWN, buff=0.25, aligned_edge=LEFT).shift(LEFT*.8)
 
-        
+        s10_D2_underline_targets = VGroup(
+            s10_D2_expand[0][0][10:16],
+            s10_D2_expand[0][1][4:10],
+            s10_D2_expand[0][3][4:10],
+        )
+        s10_D2_underline_lines = VGroup()
+        for target in s10_D2_underline_targets:
+            line = Underline(target, color=BLUE, stroke_width=5, buff=0.1)
+            s10_D2_underline_lines.add(line)
+
         s10_D2_final = VGroup(
             MathTex(r"\therefore\; S_1+S_2+\cdots+S_n",
                     color=BLUE, stroke_width=1, font_size=25),
@@ -1119,6 +1128,12 @@ class Q10(Scene):
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.15)
         s10_D4.next_to(s10_D3, DOWN, buff=0.2, aligned_edge=LEFT)
 
+
+        tmpText=MathTex(
+            r"S_1+S_2+\cdots+S_n",
+            color=CLR_CREAM, stroke_width=1, font_size=30
+        ).next_to(s10_D4[0], DOWN, buff=0.3, aligned_edge=LEFT).align_to(s10_D4[1],ORIGIN)
+
         s10_D5 = VGroup(
             MathTex(r"\because\; 1-\left(-\frac{1}{2}\right)^n>0",
                     color=CLR_SKY, stroke_width=1, font_size=25),
@@ -1132,7 +1147,7 @@ class Q10(Scene):
                     color=CLR_ROSE, stroke_width=1, font_size=25),
             Text(" 恒成立", font=FONT_CN, color=CLR_ROSE, font_size=20),
         ).arrange(RIGHT, buff=0.1)
-        s10_D6.next_to(s10_D5, DOWN, buff=0.15, aligned_edge=LEFT)
+        s10_D6.next_to(s10_D5, RIGHT, buff=0.25)
 
         self.play(q10[1][3].animate.set_color(YELLOW))
 
@@ -1160,20 +1175,35 @@ class Q10(Scene):
                      s10_D2_expand[0][1][2],
                      s10_D2_expand[0][3][2]],color=CLR_CREAM,buff=.1
         )
-        
-        
 
+        self.play(LaggedStart(
+            *[Create(line) for line in s10_D2_underline_lines],
+            lag_ratio=.5
+        ))
 
         self.play(LaggedStart(
             FadeOut(s10_D2_sum, shift=RIGHT),
             FadeOut(s10_D2_terms, shift=RIGHT),
+            Uncreate(s10_D2_expand_rec),
+            Uncreate(s10_D2_underline_lines),
             FadeOut(s10_D2_expand, shift=RIGHT),
             Write(s10_D2_final),lag_ratio=.5)
         )
         self.wait(0.5)
 
         self.play(LaggedStart(
-            Write(s10_D3), Write(s10_D4),
-            Write(s10_D5), Write(s10_D6),
+            Write(s10_D3), Write(s10_D4),            
             lag_ratio=.8))
+
+
+        self.play(LaggedStart(
+            s10_D4[1].animate.shift(RIGHT*2.8),
+            Write(tmpText),
+            lag_ratio=.5
+        ))
+        
+        self.play(LaggedStart(
+            Write(s10_D5), Write(s10_D6),
+            lag_ratio=.8)
+        )
         self.wait(2)
