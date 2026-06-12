@@ -1036,29 +1036,49 @@ class Q10(Scene):
         self.play(*[FadeOut(e, shift=RIGHT) for e in c_elements])
 
         # === D 选项 ===
-        
+        s10_D1 = VGroup(
+            Text("D. ", font=FONT_CN, color=CLR_CREAM, font_size=20),
+            MathTex(r"S_1+S_2+\cdots+S_n>\frac{2n}{3}a_1", color=BLUE, stroke_width=1, font_size=25),
+            Text(" ？", font=FONT_CN, color=CLR_CREAM, font_size=20),
+        ).arrange(RIGHT, buff=0.1)
+        self.play(q10.animate.shift(LEFT*6))
+        s10_D1.next_to(q10, RIGHT, buff=0.8).align_to(q10, UP).shift(UP)
 
         s10_D2 = VGroup(
             MathTex(r"\because\; S_n=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)^n\right]",
                     color=BLUE, stroke_width=1, font_size=25),
-            MathTex(r"\therefore\; \sum_{k=1}^{n}S_k"
-                    r"=\frac{2a_1}{3}\sum_{k=1}^{n}\left[1-\left(-\frac{1}{2}\right)^k\right]",
+            MathTex(r"\therefore\; S_1+S_2+\cdots+S_n",
+                    color=BLUE, stroke_width=1, font_size=25),
+            MathTex(r"=\frac{2a_1}{3}\left\{n-\left[\left(-\frac{1}{2}\right)"
+                    r"+\left(-\frac{1}{2}\right)^2+\cdots"
+                    r"+\left(-\frac{1}{2}\right)^n\right]\right\}",
                     color=BLUE, stroke_width=1, font_size=25),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.15)
-        s10_D2.next_to(q10[1][3], DOWN, buff=0.3, aligned_edge=LEFT)
+        
+        s10_D2.next_to(s10_D1, DOWN, buff=0.5, aligned_edge=LEFT)
 
-        s10_D3 = MathTex(
-            r"=\frac{2a_1}{3}\left[n+\frac{1}{3}\left(1-\left(-\frac{1}{2}\right)^n\right)\right]",
-            color=BLUE, stroke_width=1, font_size=25)
-        s10_D3.next_to(s10_D2, DOWN, buff=0.15, aligned_edge=LEFT)
+        s10_D3 = VGroup(
+            Text("由等比数列求和公式：", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"\left(-\frac{1}{2}\right)+\cdots+\left(-\frac{1}{2}\right)^n"
+                    r"=\frac{-\frac{1}{2}\left[1-\left(-\frac{1}{2}\right)^n\right]}"
+                    r"{1+\frac{1}{2}}"
+                    r"=-\frac{1}{3}\left[1-\left(-\frac{1}{2}\right)^n\right]",
+                    color=CLR_SKY, stroke_width=1, font_size=25),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.1)
+        s10_D3.next_to(s10_D2, DOWN, buff=0.2, aligned_edge=LEFT)
 
-        s10_D4 = MathTex(
-            r"=\frac{2n}{3}a_1+\frac{2a_1}{9}\left[1-\left(-\frac{1}{2}\right)^n\right]",
-            color=BLUE, stroke_width=1, font_size=25)
-        s10_D4.next_to(s10_D3, DOWN, buff=0.15, aligned_edge=LEFT)
+        s10_D4 = VGroup(
+            MathTex(r"\therefore\; S_1+\cdots+S_n"
+                    r"=\frac{2a_1}{3}\left\{n+\frac{1}{3}"
+                    r"\left[1-\left(-\frac{1}{2}\right)^n\right]\right\}",
+                    color=BLUE, stroke_width=1, font_size=25),
+            MathTex(r"=\frac{2n}{3}a_1+\frac{2a_1}{9}\left[1-\left(-\frac{1}{2}\right)^n\right]",
+                    color=BLUE, stroke_width=1, font_size=25),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.15)
+        s10_D4.next_to(s10_D3, DOWN, buff=0.2, aligned_edge=LEFT)
 
         s10_D5 = VGroup(
-            MathTex(r"\because\; 1-\left(-\frac{1}{2}\right)^n>0\quad(\forall n\ge 1)",
+            MathTex(r"\because\; 1-\left(-\frac{1}{2}\right)^n>0",
                     color=CLR_SKY, stroke_width=1, font_size=25),
             Text(" 且 ", font=FONT_CN, color=CLR_SKY, font_size=20),
             MathTex(r"a_1>0", color=CLR_SKY, stroke_width=1, font_size=25),
@@ -1066,20 +1086,18 @@ class Q10(Scene):
         s10_D5.next_to(s10_D4, DOWN, buff=0.2, aligned_edge=LEFT)
 
         s10_D6 = VGroup(
-            MathTex(r"\therefore\; \sum_{k=1}^{n}S_k>\frac{2n}{3}a_1",
+            MathTex(r"\therefore\; S_1+\cdots+S_n>\frac{2n}{3}a_1",
                     color=CLR_ROSE, stroke_width=1, font_size=25),
             Text(" 恒成立", font=FONT_CN, color=CLR_ROSE, font_size=20),
         ).arrange(RIGHT, buff=0.1)
-        s10_D6.next_to(s10_D5, DOWN, buff=0.15, aligned_edge=LEFT)
+        s10_D6.next_to(s10_D5, RIGHT, buff=0.25)
 
-        s10_D7 = VGroup(
-            MathTex(r"\checkmark", color=CLR_MINT, stroke_width=1, font_size=36),
-            Text("D 正确", font=FONT_CN, color=CLR_MINT, font_size=24),
-        ).arrange(RIGHT, buff=0.15)
-        s10_D7.next_to(s10_D6, DOWN, buff=0.2, aligned_edge=LEFT)
+        
 
+        self.play(q10[1][3].animate.set_color(YELLOW))
+        
         self.play(LaggedStart(
-            Write(s10_D2), Write(s10_D3), Write(s10_D4),
-            Write(s10_D5), Write(s10_D6), Write(s10_D7),
+            Write(s10_D1), Write(s10_D2), Write(s10_D3), Write(s10_D4),
+            Write(s10_D5), Write(s10_D6),
             lag_ratio=.8))
         self.wait(2)

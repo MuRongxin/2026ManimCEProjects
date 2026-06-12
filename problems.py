@@ -541,7 +541,7 @@ def problem_10(text_size: int = DEFAULT_TEXT_SIZE,
     )
     opt_d = _opt_vgroup(
         _T("D. ", font_size=opt_ts),
-        _M(r"\sum_{k=1}^{n}S_k>\frac{2n}{3}a_1", font_size=opt_ms),
+        _M(r"S_1+S_2+\cdots+S_n>\frac{2n}{3}a_1", font_size=opt_ms),
     )
     return _assemble_multi(stem, opt_a, opt_b, opt_c, opt_d, option_layout)
 
