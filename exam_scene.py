@@ -1044,9 +1044,52 @@ class Q10(Scene):
         self.play(q10.animate.shift(LEFT*6))
         s10_D1.next_to(q10, RIGHT, buff=0.8).align_to(q10, UP).shift(UP)
 
-        s10_D2 = VGroup(
-            MathTex(r"\because\; S_n=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)^n\right]",
+        s10_D2 = MathTex(
+            r"\because\; S_n=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)^n\right]",
+            color=BLUE, stroke_width=1, font_size=25)
+        s10_D2.next_to(s10_D1, DOWN, buff=0.5, aligned_edge=LEFT)
+
+        s10_D2_sum = MathTex(
+            r"\therefore\; S_1+S_2+\cdots+S_n",
+            color=BLUE, stroke_width=1, font_size=25)
+        s10_D2_sum.next_to(s10_D2, DOWN, buff=0.25, aligned_edge=LEFT)
+
+        s10_D2_terms_row1 = VGroup(
+            MathTex(r"S_1=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)\right]",
                     color=BLUE, stroke_width=1, font_size=25),
+            MathTex(r"S_2=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)^2\right]",
+                    color=BLUE, stroke_width=1, font_size=25),
+        ).arrange(RIGHT, buff=0.6)
+
+        s10_D2_terms_row2 = VGroup(
+            MathTex(r"S_3=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)^3\right]",
+                    color=BLUE, stroke_width=1, font_size=25),
+            MathTex(r"S_4=\frac{2a_1}{3}\left[1-\left(-\frac{1}{2}\right)^4\right]",
+                    color=BLUE, stroke_width=1, font_size=25),
+        ).arrange(RIGHT, buff=0.6)
+
+        s10_D2_terms = VGroup(s10_D2_terms_row1, s10_D2_terms_row2)
+        s10_D2_terms.arrange(DOWN, buff=0.15, aligned_edge=LEFT)
+        s10_D2_terms.next_to(s10_D2_sum, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        s10_D2_expand = VGroup(
+            MathTex(r"=\frac{2a_1}{3}\Big\{\left[1-\left(-\frac{1}{2}\right)\right]",
+                    r"+\left[1-\left(-\frac{1}{2}\right)^2\right]",
+                    r"+\cdots",
+                    r"+\left[1-\left(-\frac{1}{2}\right)^n\right]\Big\}",
+                    color=RED, stroke_width=1, font_size=25),
+            MathTex(r"=\frac{2a_1}{3}\Big\{n-\Big[\left(-\frac{1}{2}\right)"
+                    r"+\left(-\frac{1}{2}\right)^2"
+                    r"+\left(-\frac{1}{2}\right)^3"
+                    r"+\left(-\frac{1}{2}\right)^4"
+                    r"+\cdots"
+                    r"+\left(-\frac{1}{2}\right)^n\Big]\Big\}",
+                    color=CLR_MINT, stroke_width=1, font_size=25),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.15)
+        s10_D2_expand.next_to(s10_D2_terms, DOWN, buff=0.25, aligned_edge=LEFT).shift(LEFT*.8)
+
+        
+        s10_D2_final = VGroup(
             MathTex(r"\therefore\; S_1+S_2+\cdots+S_n",
                     color=BLUE, stroke_width=1, font_size=25),
             MathTex(r"=\frac{2a_1}{3}\left\{n-\left[\left(-\frac{1}{2}\right)"
@@ -1054,8 +1097,7 @@ class Q10(Scene):
                     r"+\left(-\frac{1}{2}\right)^n\right]\right\}",
                     color=BLUE, stroke_width=1, font_size=25),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.15)
-        
-        s10_D2.next_to(s10_D1, DOWN, buff=0.5, aligned_edge=LEFT)
+        s10_D2_final.next_to(s10_D2, DOWN, buff=0.15, aligned_edge=LEFT)
 
         s10_D3 = VGroup(
             Text("由等比数列求和公式：", font=FONT_CN, color=CLR_SKY, font_size=20),
@@ -1065,7 +1107,7 @@ class Q10(Scene):
                     r"=-\frac{1}{3}\left[1-\left(-\frac{1}{2}\right)^n\right]",
                     color=CLR_SKY, stroke_width=1, font_size=25),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.1)
-        s10_D3.next_to(s10_D2, DOWN, buff=0.2, aligned_edge=LEFT)
+        s10_D3.next_to(s10_D2_final, DOWN, buff=0.2, aligned_edge=LEFT)
 
         s10_D4 = VGroup(
             MathTex(r"\therefore\; S_1+\cdots+S_n"
@@ -1090,14 +1132,48 @@ class Q10(Scene):
                     color=CLR_ROSE, stroke_width=1, font_size=25),
             Text(" 恒成立", font=FONT_CN, color=CLR_ROSE, font_size=20),
         ).arrange(RIGHT, buff=0.1)
-        s10_D6.next_to(s10_D5, RIGHT, buff=0.25)
-
-        
+        s10_D6.next_to(s10_D5, DOWN, buff=0.15, aligned_edge=LEFT)
 
         self.play(q10[1][3].animate.set_color(YELLOW))
-        
+
         self.play(LaggedStart(
-            Write(s10_D1), Write(s10_D2), Write(s10_D3), Write(s10_D4),
+            Write(s10_D1), Write(s10_D2),
+            lag_ratio=.8))
+        self.wait(0.5)
+
+        self.play(Write(s10_D2_sum))
+        self.wait(0.3)
+
+        self.play(LaggedStart(
+            Write(s10_D2_terms_row1),
+            Write(s10_D2_terms_row2),
+            lag_ratio=.4))
+        self.wait(1)
+
+        self.play(
+            Write(s10_D2_expand),
+            )
+        self.wait(2)
+
+        s10_D2_expand_rec=EmphasizeTexts(self,
+                    [s10_D2_expand[0][0][8],
+                     s10_D2_expand[0][1][2],
+                     s10_D2_expand[0][3][2]],color=CLR_CREAM,buff=.1
+        )
+        
+        
+
+
+        self.play(LaggedStart(
+            FadeOut(s10_D2_sum, shift=RIGHT),
+            FadeOut(s10_D2_terms, shift=RIGHT),
+            FadeOut(s10_D2_expand, shift=RIGHT),
+            Write(s10_D2_final),lag_ratio=.5)
+        )
+        self.wait(0.5)
+
+        self.play(LaggedStart(
+            Write(s10_D3), Write(s10_D4),
             Write(s10_D5), Write(s10_D6),
             lag_ratio=.8))
         self.wait(2)
