@@ -1493,3 +1493,97 @@ class Q11(Scene):
             Write(e11_C6), Write(e11_C7),
             lag_ratio=.8))
         self.wait(2)
+
+        # FadeOut C 选项全部内容
+        c_all = VGroup(e11_C1, e11_C2, e11_C3, e11_C4, e11_C5b,
+                       e11_d1, e11_d2, e11_d3, e11_d4, e11_d5, e11_d6,
+                       e11_C6, e11_C7, sketch)
+        self.play(FadeOut(c_all, shift=RIGHT))
+
+        self.play(q11.animate.shift(RIGHT*5))
+        self.wait(0.5)
+        optionDpos=q11[1][0].get_center()
+        self.play(LaggedStart(
+            FadeOut(optionA,optionB),
+            FadeOut(q11[1][0],shift=LEFT),
+            FadeOut(q11[1][1],shift=LEFT),
+            FadeOut(q11[1][2],shift=LEFT),
+            q11[1][3].animate.move_to(optionDpos).set_color(CLR_SKY),
+            lag_ratio=.3
+        ))
+
+        # === D 选项：k=2 时 △ABC 面积最小值 ===
+        e11_D1 = VGroup(
+            MathTex(r"k=2", color=CLR_ROSE, stroke_width=1, font_size=26),
+            Text(" 时，", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"l:\; 2x-y+2=0", color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_D1.next_to(q11[1][3], DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e11_D2 = VGroup(
+            Text("设 A 点坐标：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"A(2t^2,4t),", color=CLR_ROSE, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_D2.next_to(e11_D1, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e11_D3 = VGroup(
+            Text(" 则 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"A", color=CLR_ROSE, stroke_width=1, font_size=26),
+            Text(" 到 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"l", color=CLR_ROSE, stroke_width=1, font_size=26),
+            Text(" 的距离：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"d=\frac{|4t^2-4t+2|}{\sqrt{5}}",
+                    color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_D3.next_to(e11_D2, RIGHT, buff=0.2)
+
+        e11_D4 = VGroup(
+            MathTex(r"4t^2-4t+2=4\Big(t-\tfrac{1}{2}\Big)^2+1\ge 1>0",
+                    color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).scale(1.1)
+        e11_D4.next_to(e11_D3, RIGHT, buff=0.15)
+
+        e11_D5 = VGroup(
+            Text("等边三角形面积：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"S=\tfrac{\sqrt{3}}{3}d^2",
+                    color=CLR_ROSE, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_D5.next_to(e11_D2, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e11_D6 = VGroup(
+            MathTex(r"S=\frac{\sqrt{3}}{15}\big(4t^2-4t+2\big)^2",
+                    color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).scale(1.1)
+        e11_D6.next_to(e11_D5, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        e11_D7 = VGroup(
+            MathTex(r"4t^2-4t+2=4\Big(t-\tfrac{1}{2}\Big)^2+1",
+                    color=CLR_SKY, stroke_width=1, font_size=26),
+            Text("，当 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"t=\tfrac{1}{2}", color=CLR_ROSE, stroke_width=1, font_size=26),
+            Text(" 取最小值 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"1", color=CLR_ROSE, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_D7.next_to(e11_D6, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e11_D8 = VGroup(
+            MathTex(r"\therefore\; S_{\min}=\frac{\sqrt{3}}{15}",
+                    color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，此时 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"A\Big(\tfrac{1}{2},2\Big)", color=CLR_ROSE, stroke_width=1, font_size=26),
+            Text(" ✓", font=FONT_CN, color=RED, font_size=20),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_D8.next_to(e11_D7, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        self.play(Write(e11_D1))
+        self.wait(0.3)
+        self.play(LaggedStart(
+            Write(e11_D2), Write(e11_D3), Write(e11_D4),
+            lag_ratio=.8))
+        self.wait(0.5)
+        self.play(LaggedStart(
+            Write(e11_D5), Write(e11_D6), Write(e11_D7),
+            lag_ratio=.8))
+        self.wait(0.5)
+        self.play(Write(e11_D8))
+        self.wait(2)
