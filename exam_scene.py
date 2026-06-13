@@ -1,3 +1,5 @@
+from turtle import color
+
 from manim import *
 import problems
 
@@ -1206,4 +1208,288 @@ class Q10(Scene):
             Write(s10_D5), Write(s10_D6),
             lag_ratio=.8)
         )
+        self.wait(2)
+
+
+class Q11(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"抛物线性质 直线与抛物线",font_size=31)
+        self.play(title)
+
+        q11=problems.problem_11(wrap_after=9)
+        q11.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+        self.play(Write(q11))
+        self.wait(2)
+
+        # A        
+        e11_A=VGroup(
+            MathTex(r"y^2=8x, \; p=4 ;\;",color=CLR_ROSE,stroke_width=1,font_size=28),
+            Text(" 准线: ",font=FONT_CN,color=CLR_SKY,font_size=24),
+            MathTex(r"x=-\frac{p}{2}=-2",color=CLR_ROSE,stroke_width=1,font_size=28),
+            Text(" ✓",font=FONT_CN,color=RED,font_size=20),
+        ).arrange(RIGHT,buff=.08).scale(1.3)
+        e11_A.next_to(q11[1][0],RIGHT,)
+        self.play(Write(e11_A))
+        self.wait(1)
+
+        optionA=Text("✓",font=FONT_CN,color=RED,font_size=20,
+                     stroke_width=1,stroke_color=RED
+                     ).next_to(q11[1][0],RIGHT,buff=.15)
+        self.play(ReplacementTransform(e11_A,optionA))
+        q11.add(optionA)
+        self.wait(1)
+
+        self.play(LaggedStart(
+                    FadeOut(q11[1][2],shift=LEFT), 
+                    FadeOut(q11[1][3],shift=LEFT),            
+                    lag_ratio=.5
+                ))
+
+        # B: 直线 l 与抛物线 C 无交点
+        e11_B1 = VGroup(
+            Text("B. ", font=FONT_CN, color=CLR_CREAM, font_size=20),
+            Text("直线 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"l: y=k(x+1)", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text(" 与抛物线 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"C: y^2=8x", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08).scale(1.3)
+        e11_B1.next_to(q11[1][1], DOWN, buff=0.4, aligned_edge=LEFT)
+
+        e11_B2 = MathTex(
+            r"\begin{cases} y=k(x+1) \\ y^2=8x \end{cases}",
+            color=CLR_CREAM, stroke_width=1, font_size=28,
+        ).scale(1.3)
+        e11_B2.next_to(e11_B1, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e11_B3 = VGroup(
+            Text("消去 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"y", color=CLR_CREAM, stroke_width=1, font_size=28),
+            Text("：", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"[k(x+1)]^2=8x", color=CLR_CREAM, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08).scale(1.3)
+        e11_B3.next_to(e11_B2, DOWN, buff=0.2,aligned_edge=LEFT)
+
+        e11_B4 = MathTex(
+            r"k^2(x^2+2x+1)=8x",
+            color=CLR_CREAM, stroke_width=1, font_size=28,
+        ).scale(1.3)
+        e11_B4.next_to(e11_B3[3], DOWN, buff=0.15, aligned_edge=LEFT)
+
+        e11_B5 = MathTex(
+            r"k^2x^2+(2k^2-8)x+k^2=0",
+            color=CLR_CREAM, stroke_width=1, font_size=28,
+        ).scale(1.3)
+        e11_B5.next_to(e11_B4, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        e11_B6 = VGroup(
+            Text("无交点 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"\Rightarrow\; \Delta<0", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08).scale(1.3)
+        e11_B6.next_to(e11_B2, RIGHT, buff=4,aligned_edge=UP)
+
+        e11_B7 = MathTex(
+            r"\Delta = (2k^2-8)^2 - 4k^2\cdot k^2",
+            color=CLR_CREAM, stroke_width=1, font_size=28,
+        ).scale(1.3)
+        e11_B7.next_to(e11_B6, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        e11_B8 = MathTex(
+            r"= 4k^4-32k^2+64-4k^4 = -32k^2+64",
+            color=CLR_CREAM, stroke_width=1, font_size=28,
+        ).scale(1.3)
+        e11_B8.next_to(e11_B7, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        e11_B9 = MathTex(
+            r"\Delta < 0 \;\Rightarrow\; -32k^2+64 < 0 \;\Rightarrow\; k^2 > 2",
+            color=CLR_CREAM, stroke_width=1, font_size=28,
+        ).scale(1.3)
+        e11_B9.next_to(e11_B8, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e11_B10 = VGroup(
+            Text("由题 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"k>0, ", color=CLR_CREAM, stroke_width=1, font_size=28),
+            MathTex(r"\therefore\; k>\sqrt{2}", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text(" ✓", font=FONT_CN, color=RED, font_size=20),
+        ).arrange(RIGHT, buff=0.08).scale(1.3)
+        e11_B10.next_to(e11_B9, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        self.play(LaggedStart(
+            Write(e11_B1), Write(e11_B2), lag_ratio=.8))
+        self.wait(0.5)
+        self.play(LaggedStart(
+            Write(e11_B3), Write(e11_B4), Write(e11_B5),
+            lag_ratio=.8))
+        self.wait(0.5)
+        self.play(LaggedStart(
+            Write(e11_B6), Write(e11_B7), Write(e11_B8), Write(e11_B9),
+            lag_ratio=.8))
+        self.wait(0.5)
+        self.play(Write(e11_B10))
+        self.wait(1.5)       
+
+        optionB=Text("✓",font=FONT_CN,color=RED,font_size=20,
+                             stroke_width=1,stroke_color=RED
+                             ).next_to(q11[1][1],RIGHT,buff=.15)
+
+        b_elements =VGroup (e11_B1, e11_B2, e11_B3, e11_B4, e11_B5,
+                      e11_B6, e11_B7, e11_B8, e11_B9, e11_B10)
+        self.play(ReplacementTransform(b_elements, optionB))
+        q11.add(optionB)
+
+        self.play(FadeIn(q11[1][2],shift=RIGHT))
+
+        # C: l 与 C 相切时，AB 过焦点 F
+        e11_C1 = VGroup(
+            Text("由 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"\Delta=-32k^2+64=0\;\Rightarrow\; k=\sqrt{2}", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+
+        self.play(q11.animate.shift(LEFT*5))
+        e11_C1.next_to(q11, RIGHT, buff=0.5,aligned_edge=UP)
+
+        e11_C2 = VGroup(
+            MathTex(r"k=\sqrt{2}", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text(" 代入联立方程可得：：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"x^2-2x+1=0", color=CLR_CREAM, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_C2.next_to(e11_C1, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e11_C3 = VGroup(
+            Text("解得：", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"x=1 \;\Rightarrow\;  y=\sqrt{2}(x+1)=2\sqrt{2}", color=CLR_CREAM, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_C3.next_to(e11_C2, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        e11_C4 = VGroup(
+            Text("B 即切点:  ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"B(1,2\sqrt{2})", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_C4.next_to(e11_C3, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        # === 示意图：等边三角形 + 切线 l ===
+        sketch_l = Line(LEFT * 1.8, RIGHT * 1.8, color=CLR_SKY, stroke_width=2.5)
+        sketch_l.next_to(q11[1][2], RIGHT, buff=0.6).shift(DOWN * 0.3)
+        lbl_l = MathTex(r"l", color=RED, font_size=29,stroke_width=1).next_to(sketch_l, UP, buff=0.1).shift(LEFT*.4)
+
+        sketch_B = Dot(sketch_l.get_center() + LEFT * 0.9, color=CLR_SALMON, radius=0.09)
+        sketch_C = Dot(sketch_l.get_center() + RIGHT * 0.9, color=CLR_SALMON, radius=0.09)
+        lbl_B = MathTex(r"B", color=CLR_SALMON, font_size=26,stroke_width=1).next_to(sketch_B, DOWN, buff=0.12)
+        lbl_C = MathTex(r"C", color=CLR_SALMON, font_size=26,stroke_width=1).next_to(sketch_C, DOWN, buff=0.12)
+
+        sketch_A = Dot(sketch_l.get_center() + UP * 1.5, color=CLR_ROSE, radius=0.09)
+        lbl_A = MathTex(r"A", color=CLR_ROSE, font_size=26,stroke_width=1).next_to(sketch_A, UP, buff=0.08)
+
+        sketch_AB = Line(sketch_A.get_center(), sketch_B.get_center(), color=CLR_CREAM, stroke_width=4)
+        sketch_AC = Line(sketch_A.get_center(), sketch_C.get_center(), color=CLR_CREAM, stroke_width=4)
+
+        sketch_F = Dot(sketch_AB.point_from_proportion(0.35), color=YELLOW, radius=0.08)
+        lbl_F = MathTex(r"F", color=YELLOW, font_size=26, stroke_width=1).next_to(sketch_F, DR, buff=0.08)
+
+        sketch = VGroup(sketch_l, lbl_l, sketch_B, lbl_B, sketch_C, lbl_C,
+                        sketch_A, lbl_A, sketch_AB, sketch_AC, sketch_F, lbl_F)
+
+        # sketch plays moved after e11_C1-C4        
+        e11_C5b = VGroup(
+            Text("若 C 成立 ⇒ A,B,F 共线。", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"F(2,0),\; B(1,2\sqrt{2})", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text(" 确定直线 BF", font=FONT_CN, color=CLR_SKY, font_size=22),
+        ).arrange(RIGHT, buff=0.08).scale(1.1)
+        e11_C5b.next_to(e11_C4, DOWN, buff=0.25, aligned_edge=LEFT)
+
+        # === BF 与 E 求交点 ===
+        e11_d1 = VGroup(
+            Text("BF: ", font=FONT_CN, color=CLR_TEAL, font_size=22),
+            MathTex(r"y=-2\sqrt{2}(x-2)", color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(.8)
+        e11_d1.next_to(e11_C5b, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        e11_d2 = VGroup(
+            Text("联立 ", font=FONT_CN, color=CLR_TEAL, font_size=22),
+            MathTex(r"y^2=8x", color=CLR_CREAM, stroke_width=1, font_size=26),
+            Text("：", font=FONT_CN, color=CLR_TEAL, font_size=22),
+            MathTex(r"8(x-2)^2=8x \Rightarrow x^2-5x+4=0", color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(.8)
+        e11_d2.next_to(e11_d1, DOWN, buff=0.12, aligned_edge=LEFT)
+
+        e11_d3 = VGroup(
+            Text("解得 ", font=FONT_CN, color=CLR_TEAL, font_size=22),
+            MathTex(r"x=1", color=CLR_CREAM, stroke_width=1, font_size=26),
+            Text("（即 B）或 ", font=FONT_CN, color=CLR_TEAL, font_size=22),
+            MathTex(r"x=4 \Rightarrow A(4,-4\sqrt{2})", color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(.8)
+        e11_d3.next_to(e11_d2, DOWN, buff=0.12, aligned_edge=LEFT)
+
+        e11_d4 = VGroup(
+            Text("|AB| = 9，等边 ⇒ |BC| = 9。C 在 l 上：", font=FONT_CN, color=CLR_TEAL, font_size=22),
+            MathTex(r"C=(x,\sqrt{2}(x+1))", color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(.8)
+        e11_d4.next_to(e11_d3, DOWN, buff=0.12, aligned_edge=LEFT)
+
+        e11_d5 = VGroup(
+            MathTex(r"|BC|^2=(x-1)^2+(\sqrt{2}(x+1)-2\sqrt{2})^2=3(x-1)^2=81", color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(.8)
+        e11_d5.next_to(e11_d4, DOWN, buff=0.12, aligned_edge=LEFT)
+
+        e11_d6 = VGroup(
+            Text("⇒ ", font=FONT_CN, color=CLR_TEAL, font_size=22),
+            MathTex(r"x=1\pm3\sqrt{3},\; C(1\pm3\sqrt{3},\;2\sqrt{2}\pm3\sqrt{6})", color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08).scale(.8)
+        e11_d6.next_to(e11_d5, DOWN, buff=0.12, aligned_edge=LEFT)
+
+        # derivation plays moved
+
+        e11_C6 = VGroup(
+            Text("验证 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"|AC|^2=162+54\sqrt{3}\neq 81", color=CLR_ROSE, stroke_width=1, font_size=26),
+            Text("，非等边！", font=FONT_CN, color=CLR_SKY, font_size=22),
+        ).arrange(RIGHT, buff=0.08).scale(.9)
+        e11_C6.next_to(e11_d6, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        e11_C7 = VGroup(
+            MathTex(r"\times", color=CLR_CRIMSON, stroke_width=1, font_size=36),
+            Text("C 不正确", font=FONT_CN, color=CLR_CRIMSON, font_size=24),
+        ).arrange(RIGHT, buff=0.15).scale(1.1)
+        e11_C7.next_to(e11_C6, DOWN, buff=0.2, aligned_edge=LEFT)
+
+
+        # ① 切点 T
+        self.play(LaggedStart(
+            Write(e11_C1), Write(e11_C2), Write(e11_C3), Write(e11_C4),
+            lag_ratio=.8))
+        self.wait(0.5)
+
+        # ② 示意图（1 秒画完）
+        self.play(AnimationGroup(
+            Create(sketch_l), Write(lbl_l),
+            Create(sketch_B), Write(lbl_B), Create(sketch_C), Write(lbl_C),
+            Create(sketch_A), Write(lbl_A),
+            Create(sketch_AB), Create(sketch_AC),
+            Create(sketch_F), Write(lbl_F),
+        ), run_time=1)
+        self.wait(0.5)
+
+        # ③ 假设 C 成立 ⇒ A,B,F 共线
+        self.play(LaggedStart(
+            Write(e11_C5b),
+            lag_ratio=.8))
+        self.wait(0.5)
+       
+
+        self.play(Write(e11_d1))
+        self.wait(0.3)
+        self.play(Write(e11_d2))
+        self.wait(0.3)
+        self.play(Write(e11_d3))
+        self.wait(0.3)
+        self.play(Write(e11_d4))
+        self.wait(0.3)
+        self.play(Write(e11_d5))
+        self.wait(0.3)
+        self.play(Write(e11_d6))
+        self.wait(1)
+
+        # ⑤ 验证 |AC| → 矛盾
+        self.play(LaggedStart(
+            Write(e11_C6), Write(e11_C7),
+            lag_ratio=.8))
         self.wait(2)
