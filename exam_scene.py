@@ -1587,3 +1587,527 @@ class Q11(Scene):
         self.wait(0.5)
         self.play(Write(e11_D8))
         self.wait(2)
+
+
+class Q12(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"等差数列 求和",font_size=31)
+        self.play(title)
+
+        q12=problems.problem_12()
+        q12.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+        self.play(Write(q12))
+
+        s12_1 = VGroup(
+            Text("由 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"a_4=a_1+3d", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text(" ⇒ ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"5=-1+3d \;\Rightarrow\; d=2", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        s12_1.next_to(q12, DOWN, buff=0.5, aligned_edge=LEFT)
+
+        s12_2 = MathTex(r"S_6=\frac{6}{2}(2a_1+5d)=3(-2+10)=24",
+                        color=CLR_ROSE, stroke_width=1, font_size=33)
+        s12_2.next_to(s12_1, DOWN, buff=0.3, aligned_edge=LEFT)
+
+        self.play(Write(s12_1))
+        self.wait(0.5)
+        self.play(Write(s12_2))
+        self.wait(2)
+
+
+class Q13(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"函数零点 换元",font_size=31)
+        self.play(title)
+
+        q13=problems.problem_13()
+        q13.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+        self.play(Write(q13))
+
+        s13_1 = VGroup(
+            Text("令 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"t=2^x>0", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，则 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"f(x)=t+\frac{4}{t}-m", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        s13_1.next_to(q13, DOWN, buff=0.5, aligned_edge=LEFT)
+
+        s13_2 = VGroup(
+            Text("两零点 ⇔ ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"t+\frac{4}{t}=m", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text(" 有两个正根", font=FONT_CN, color=CLR_SKY, font_size=22),
+        ).arrange(RIGHT, buff=0.08)
+        s13_2.next_to(s13_1, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        s13_3 = VGroup(
+            Text("由均值不等式：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"t+\frac{4}{t}\ge 2\sqrt{t\cdot\frac{4}{t}}=4", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，t=2 时取等", font=FONT_CN, color=CLR_SKY, font_size=22),
+        ).arrange(RIGHT, buff=0.08)
+        s13_3.next_to(s13_2, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        s13_4 = MathTex(r"\therefore\; m>4",
+                        color=CLR_ROSE, stroke_width=1, font_size=36)
+        s13_4.next_to(s13_3, DOWN, buff=0.3, aligned_edge=LEFT)
+
+        # === 函数图像 ===
+        g_axes = Axes(
+            x_range=[0, 7.2, 1], y_range=[0, 16, 4],
+            x_length=3.5, y_length=2.5,
+            axis_config={"color": GREY, "stroke_width": 3},
+            tips=False,
+        )
+        g_axes.next_to(s13_4, RIGHT, buff=1).shift(DOWN * 0.3+RIGHT*4)
+
+        curve = g_axes.plot(lambda t: t + 4/t, x_range=[.3, 6.9], color=CLR_SKY, stroke_width=4)
+        min_dot = Dot(g_axes.c2p(2, 4), color=CLR_ROSE, radius=0.1)
+        line_4 = DashedLine(g_axes.c2p(0, 4), g_axes.c2p(6.9, 4), color=GREY, stroke_width=2.5)
+        lbl_4 = MathTex(r"4", color=GREY, font_size=30, stroke_width=1).next_to(line_4, LEFT, buff=0.08)
+
+        line_m = DashedLine(g_axes.c2p(0, 6), g_axes.c2p(6.9, 6), color=CLR_ROSE, stroke_width=4)
+        lbl_m = MathTex(r"m", color=CLR_ROSE, font_size=28, stroke_width=1).next_to(line_m, LEFT, buff=0.08)
+
+        t1, t2 = 3 - np.sqrt(5), 3 + np.sqrt(5)
+        dot1 = Dot(g_axes.c2p(t1, 6), color=BLUE, radius=0.1)
+        dot2 = Dot(g_axes.c2p(t2, 6), color=BLUE, radius=0.1)
+
+        # === 播放 ===
+        self.play(
+            LaggedStart(Write(s13_1), Write(s13_2), Write(s13_3), lag_ratio=0.8),
+        )
+        self.wait()
+        self.play(
+            LaggedStart(Create(g_axes), Create(curve), lag_ratio=0.5),
+        )
+        self.play(
+            LaggedStart(Create(line_4), Write(lbl_4), Create(min_dot),
+                        Create(line_m), Write(lbl_m), Create(dot1), Create(dot2),
+                        lag_ratio=0.4),
+        )
+        self.play(Write(s13_4))
+        self.wait(2)
+
+
+class Q14(Scene):
+    def construct(self):
+        title,titlePos=AddTitle(self,"球内接正三角形",font_size=31)
+        self.play(title)
+
+        q14=problems.problem_14(wrap_after=14)
+        q14.next_to(titlePos,DOWN,buff=.7).align_to(titlePos,LEFT)
+        self.play(Write(q14))
+
+        # === 用成熟方案重绘三维截面示意图（含动态演示）===
+        ax = Axes(
+            x_range=[-2.5, 2.5, 1],
+            y_range=[-2.5, 2.5, 1],
+            x_length=5.2,
+            y_length=5.2,
+            axis_config={"stroke_width": 0},
+            tips=False,
+        )
+        ax.to_edge(RIGHT, buff=0.1).shift(DOWN * 0.25)
+        unit = ax.x_axis.unit_size
+
+        R = 1.8                      # 球半径（与 TrirPyrCir 一致）
+        O = ax.c2p(0, 0)             # 球心
+        D = ax.c2p(0, R)             # 顶点 D 在球最顶端
+
+        # ---- 球体：前实后虚 ----
+        sphere = Circle(radius=R * unit, color=CLR_SKY, stroke_width=3)
+        sphere.move_to(O)
+        sphere_back = Arc(radius=R * unit, start_angle=PI/2, angle=PI,
+                          color=GREY, stroke_width=2)
+        sphere_back.move_arc_center_to(O)
+        sphere_back = DashedVMobject(sphere_back, num_dashes=30)
+
+        # ---- 固定点与标签 ----
+        dot_O = Dot(O, color=CLR_TEAL, radius=0.09)
+        lbl_O = MathTex(r"O", color=CLR_TEAL, font_size=24).next_to(dot_O, LEFT, buff=0.1)
+        dot_D = Dot(D, color=CLR_CRIMSON, radius=0.1)
+        lbl_D = MathTex(r"D", color=CLR_CRIMSON, font_size=30).next_to(dot_D, UP, buff=0.1)
+
+        # ---- 中心轴线 ----
+        axis = DashedLine(ax.c2p(0, -R * 1.15), ax.c2p(0, R * 1.15),
+                          color=GREY, stroke_width=1.5)
+
+        # ---- 动态部分生成函数：所有会随 h 变化的元素 ----
+        def make_dynamic(h):
+            H = ax.c2p(0, h)
+            r = np.sqrt(max(R**2 - h**2, 0))
+            rx = r * unit
+            ry = rx * 0.32
+
+            def circle_point(phi):
+                return H + RIGHT * (rx * np.cos(phi)) + UP * (ry * np.sin(phi))
+
+            # 前半圆实线，后半圆虚线
+            circum_front = ParametricFunction(
+                lambda t: circle_point(PI + t),
+                t_range=[0, PI],
+                color=BLUE, stroke_width=2.5,
+            )
+            circum_back_raw = ParametricFunction(
+                lambda t: circle_point(t),
+                t_range=[0, PI],
+                color=GREY, stroke_width=3,
+            )
+            circum_back = DashedVMobject(circum_back_raw, num_dashes=28)
+
+            # A、B、C 三点
+            angles = [3*PI/7, -PI/6, -5*PI/6]
+            pts = [circle_point(a) for a in angles]
+            pt_A, pt_B, pt_C = pts
+
+            tri = Polygon(pt_A, pt_B, pt_C,
+                          color=CLR_ROSE, stroke_width=3,
+                          fill_opacity=0.22, fill_color=CLR_ROSE)
+
+            dots_ABC = VGroup(*[
+                Dot(p, color=CLR_ROSE, radius=0.07) for p in pts
+            ])
+            lbls_ABC = VGroup(
+                MathTex(r"A", color=CLR_ROSE, font_size=30).next_to(pt_A, UL, buff=0.08),
+                MathTex(r"B", color=CLR_ROSE, font_size=30).next_to(pt_B, RIGHT, buff=0.1),
+                MathTex(r"C", color=CLR_ROSE, font_size=30).next_to(pt_C, DOWN, buff=0.1),
+            )
+
+            dot_H = Dot(H, color=CLR_CREAM, radius=0.07)
+            lbl_H = MathTex(r"H", color=CLR_CREAM, font_size=22).next_to(dot_H, RIGHT, buff=0.08)
+
+            # 关键辅助线
+            seg_DH = Line(D, H, color=CLR_CREAM, stroke_width=2)
+            seg_OH = Line(O, H, color=YELLOW, stroke_width=2)
+            seg_OC = DashedLine(O, pt_C, color=CLR_CREAM, stroke_width=3)
+            seg_DA = DashedLine(D, pt_A, color=CLR_SKY, stroke_width=3)
+            seg_DB = Line(D, pt_B, color=CLR_SKY, stroke_width=2.5)
+            seg_DC = Line(D, pt_C, color=CLR_SKY, stroke_width=2.5)
+            seg_HC = DashedLine(H, pt_C, color=CLR_MINT, stroke_width=3)
+
+            # 长度标注
+            mid_OC = (O + pt_C) / 2
+            lbl_R = MathTex(r"R", color=YELLOW, font_size=25,stroke_width=1).move_to(mid_OC + LEFT * 0.22 + UP * 0.08)
+            mid_DA = (D + pt_A) / 2
+            lbl_2 = MathTex(r"2", color=BLUE, font_size=25).move_to(mid_DA + RIGHT * 0.25)
+            mid_HC = (H + pt_C) / 2
+            lbl_r = MathTex(r"r", color=BLUE, font_size=30,stroke_width=1).move_to(mid_HC + RIGHT * 0.1 + UP * 0.1)
+
+            # 图层顺序：后虚线圆 -> 三角形 -> 前实线圆 -> 点与标签 -> H -> 线段 -> 标注
+            return VGroup(
+                circum_back, tri, circum_front,
+                dots_ABC, lbls_ABC,
+                dot_H, lbl_H,
+                seg_DH, seg_OH, seg_OC,
+                seg_DA, seg_DB, seg_DC, seg_HC,
+                lbl_R, lbl_2, lbl_r,
+            )
+
+        # ---- 动画控制 ----
+        h_tracker = ValueTracker(-R / 3)
+        dynamic = make_dynamic(h_tracker.get_value())
+        dynamic.add_updater(lambda m: m.become(make_dynamic(h_tracker.get_value())))
+
+        # 全部元素（固定 + 动态）
+        elements = VGroup(
+            sphere_back, sphere, axis,
+            dot_O, lbl_O, dot_D, lbl_D,
+            dynamic,
+        )
+
+        # 2 秒内一次性画出整个示意图
+        self.play(LaggedStart(
+            *[Create(element) for element in elements], 
+            lag_ratio=.3),
+            run_time=2)
+        self.wait(0.5)
+
+        # 底面沿轴线上下移动，直观展示 O 在内部/外部
+        self.play(
+            h_tracker.animate.set_value(0.75 * R),
+            run_time=5,
+            rate_func=there_and_back,
+        )
+        self.wait(0.5)
+
+        # 移除 updater，定格到最终位置
+        dynamic.clear_updaters()
+        self.wait(0.5)
+
+        s14_1 = VGroup(
+            Text("球体积：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"\frac{4}{3}\pi R^3=4\sqrt{3}\pi \;\Rightarrow\; R=\sqrt{3}",
+                    color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        s14_1.next_to(q14, DOWN, buff=0.5, aligned_edge=LEFT)
+
+        s14_2 = VGroup(
+            Text("D 到 A,B,C 等距 ⇒ D 在 △ABC 的正上方，",
+                  font=FONT_CN, color=CLR_SKY, font_size=22),
+            Text("设 H 为 △ABC 中心。",
+                  font=FONT_CN, color=CLR_SKY, font_size=22),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.1)
+        s14_2.next_to(s14_1, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        s14_3 = VGroup(
+            Text("O、H、D 共线。", font=FONT_CN, color=CLR_SKY, font_size=22),
+            Text("设 △ABC 外接圆半径 r，OH=d", font=FONT_CN, color=CLR_SKY, font_size=22),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.08)
+        s14_3.next_to(s14_2, DOWN, buff=0.1, aligned_edge=LEFT)
+
+        s14_4 = VGroup(
+            Text("由勾股：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"R^2=d^2+r^2 \;\Rightarrow\; 3=d^2+r^2", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        s14_4.next_to(s14_3, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        s14_5 = VGroup(
+            MathTex(r"DC^2=DH^2+r^2 \;\Rightarrow\; 4=DH^2+r^2", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        s14_5.next_to(s14_4, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        s14_6 = VGroup(
+            Text("相减得 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"DH^2-d^2=1", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，又 O、D 在 H 异侧：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"DH+d=\sqrt{3}", color=CLR_ROSE, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        s14_6.next_to(s14_5, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        s14_7 = VGroup(
+            Text("解得 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"r^2=\frac{8}{3}", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text("，等边面积：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"S=\frac{3\sqrt{3}}{4}r^2=\frac{3\sqrt{3}}{4}\cdot\frac{8}{3}=2\sqrt{3}",
+                    color=CLR_ROSE, stroke_width=1, font_size=30),
+        ).arrange(RIGHT, buff=0.08)
+        s14_7.next_to(s14_6, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        self.play(LaggedStart(
+            Write(s14_1), Write(s14_2), Write(s14_3),
+            lag_ratio=0.6,
+        ))
+        self.play(LaggedStart(
+            Write(s14_4), Write(s14_5), Write(s14_6), Write(s14_7),
+            lag_ratio=0.6,
+        ))
+        self.wait(2)
+
+
+class TrirPyrCir(Scene):
+    """
+    三棱锥外接球动态演示：底面 ABC 沿轴线上下移动，
+    直观展示球心 O 在三棱锥 D-ABC 内部 / 外部两种情形。
+
+    几何模型：
+    - 球心 O 固定在坐标原点；
+    - 球半径为 R，顶点 D 固定在球的最顶端 (0, R)；
+    - 底面 ABC 是位于水平平面 z = h 上的正三角形；
+    - A、B、C 都在球面上，因此底面外接圆半径 r = sqrt(R^2 - h^2)；
+    - 当 h 从负值变为正值时，底面从 O 下方移动到 O 上方，
+      观众可以看到 O 从三棱锥内部转移到外部。
+    """
+
+    def construct(self):
+        # ============================================================
+        # 1. 标题：说明本演示的主题
+        # ============================================================
+        title = Text("三棱锥外接球 · 底面移动演示", font=FONT_CN,
+                     color=CLR_CREAM, font_size=28)
+        title.to_corner(UL, buff=0.3)
+        self.add(title)
+
+        # ============================================================
+        # 2. 坐标系 Axes：把所有几何量从“数学坐标”映射到“屏幕坐标”
+        # ============================================================
+        # x_range/y_range：数学坐标的范围；x_length/y_length：在屏幕上的总长度。
+        # axis_config={"stroke_width": 0} 隐藏坐标轴本身，只用它做定位工具；
+        # tips=False 关闭坐标轴末端的箭头。
+        ax = Axes(
+            x_range=[-2.5, 2.5, 1],
+            y_range=[-2.5, 2.5, 1],
+            x_length=5.2,
+            y_length=5.2,
+            axis_config={"stroke_width": 0},
+            tips=False,
+        )
+        # 把坐标系放到画面右侧，留一些边距；再稍微下移，避免和左上角标题重叠。
+        ax.to_edge(RIGHT, buff=0.6).shift(DOWN * 0.1)
+        # unit：Axes 中一个单位长度对应多少像素，用于把 R 换算成屏幕长度。
+        unit = ax.x_axis.unit_size
+
+        # ============================================================
+        # 3. 固定几何量：球半径 R、球心 O、顶点 D
+        # ============================================================
+        R = 1.8                      # 球半径（Axes 坐标系中的长度）
+        O = ax.c2p(0, 0)             # 球心 O：Axes 原点对应的屏幕位置
+        D = ax.c2p(0, R)             # 顶点 D：在球的最顶端 (0, R)
+
+        # ============================================================
+        # 4. 球体：前半实线 + 后半虚线，形成立体球效果
+        # ============================================================
+        # Circle 默认圆心在原点 (0,0)，所以创建后用 move_to(O) 把球心移到 O。
+        sphere = Circle(radius=R * unit, color=CLR_SKY, stroke_width=4)
+        sphere.move_to(O)
+
+        # Arc 绘制左侧半圆（参数角从 PI/2 开始，扫过 PI 弧度），代表背向观众的半球。
+        # 用 DashedVMobject 把它转成虚线，与前面的实线半球区分。
+        sphere_back = Arc(radius=R * unit, start_angle=PI/2, angle=PI,
+                          color=GREY, stroke_width=2)
+        sphere_back.move_arc_center_to(O)
+        sphere_back = DashedVMobject(sphere_back, num_dashes=30)
+
+        # ============================================================
+        # 5. 固定点 O、D 及其标签
+        # ============================================================
+        dot_O = Dot(O, color=CLR_TEAL, radius=0.09)
+        # next_to(dot_O, LEFT, buff=0.1) 把标签放在 O 的左侧，间距 0.1。
+        lbl_O = MathTex(r"O", color=CLR_TEAL, font_size=24).next_to(dot_O, LEFT, buff=0.1)
+
+        dot_D = Dot(D, color=CLR_CRIMSON, radius=0.1)
+        lbl_D = MathTex(r"D", color=CLR_CRIMSON, font_size=30).next_to(dot_D, UR, buff=0.2)
+
+        # 穿过 O 与 D 的竖直中心轴线，作为底面上下移动的参考。
+        axis = DashedLine(ax.c2p(0, -R * 1.15), ax.c2p(0, R * 1.15),
+                          color=GREY, stroke_width=1.5)
+
+        # ============================================================
+        # 6. 动态底面生成函数 make_base(h)
+        # ============================================================
+        # 输入 h：底面中心 H 在 Axes 坐标系中的竖直高度。
+        # 返回值 VGroup：包含该高度下底面 ABC 的所有图形元素。
+        def make_base(h):
+            """h：底面中心 H 在 Axes 坐标系中的 z 坐标（竖直高度）"""
+
+            # ---- 6.1 底面中心 H 和底面外接圆半径 r ----
+            H = ax.c2p(0, h)                       # H 在竖直轴上，高度为 h
+            # A、B、C 都在球面上，H 是底面中心。由勾股定理：
+            # OH^2 + HA^2 = OA^2  =>  h^2 + r^2 = R^2  =>  r = sqrt(R^2 - h^2)
+            # max(..., 0) 防止浮点误差导致负数开方出错。
+            r = np.sqrt(max(R**2 - h**2, 0))
+
+            # ---- 6.2 透视椭圆参数 ----
+            # 水平圆在透视下应画成椭圆。rx 是水平方向长半轴（真实长度），
+            # ry 是竖直方向短半轴（压缩后），模拟近大远小的透视效果。
+            rx = r * unit
+            ry = rx * 0.32
+
+            # ---- 6.3 底面外接圆参数方程 ----
+            # phi 为参数角，circle_point(phi) 返回椭圆上一点的屏幕坐标。
+            # phi=0      -> 椭圆最右端
+            # phi=PI/2   -> 椭圆最上端
+            # phi=PI     -> 椭圆最左端
+            # phi=3PI/2  -> 椭圆最下端
+            def circle_point(phi):
+                return H + RIGHT * (rx * np.cos(phi)) + UP * (ry * np.sin(phi))
+
+            # ---- 6.4 外接圆：前实后虚，制造立体层次 ----
+            # 椭圆下半部分（phi ∈ [PI, 2PI]，sin(phi) < 0）朝向屏幕，是“前面”，画实线。
+            circum_front = ParametricFunction(
+                lambda t: circle_point(PI + t),    # phi = PI + t，范围 [PI, 2PI]
+                t_range=[0, PI],
+                color=CLR_MINT, stroke_width=2.5,
+            )
+            # 椭圆上半部分（phi ∈ [0, PI]，sin(phi) > 0）被三角形遮挡，是“后面”，画虚线。
+            circum_back_raw = ParametricFunction(
+                lambda t: circle_point(t),         # phi = t，范围 [0, PI]
+                t_range=[0, PI],
+                color=GREY, stroke_width=2,
+            )
+            circum_back = DashedVMobject(circum_back_raw, num_dashes=18)
+
+            # ---- 6.5 正三角形 ABC 的三个顶点 ----
+            # 三个角度相差 120°（即 2*PI/3），保证是正三角形。
+            # A 在后上方（靠近背半球），B、C 在前下方两侧，避免标签和线条互相遮挡。
+            angles = [3*PI/7, -PI/6, -5*PI/6]
+            pts = [circle_point(ang) for ang in angles]
+            pt_A, pt_B, pt_C = pts
+
+            # ---- 6.6 三角形 ABC ----
+            # Polygon 连接三点；fill_opacity 给半透明填充，增强立体感。
+            tri = Polygon(pt_A, pt_B, pt_C,
+                          color=CLR_ROSE, stroke_width=3,
+                          fill_opacity=0.22, fill_color=CLR_ROSE)
+
+            # ---- 6.7 三个顶点的小圆点和标签 ----
+            dots_ABC = VGroup(*[
+                Dot(p, color=CLR_ROSE, radius=0.06) for p in pts
+            ])
+            lbls_ABC = VGroup(
+                MathTex(r"A", color=CLR_ROSE, font_size=30).next_to(pt_A, UR, buff=0.08),
+                MathTex(r"B", color=CLR_ROSE, font_size=30).next_to(pt_B, RIGHT, buff=0.08),
+                MathTex(r"C", color=CLR_ROSE, font_size=30).next_to(pt_C, DOWN, buff=0.08),
+            )
+
+            # ---- 6.8 底面中心 H ----
+            dot_H = Dot(H, color=CLR_CREAM, radius=0.07)
+            lbl_H = MathTex(r"H", color=CLR_CREAM, font_size=22).next_to(dot_H, RIGHT, buff=0.08)
+
+            # ---- 6.9 关键辅助线段 ----
+            # DH：三棱锥的高；OH：球心到底面中心的距离。
+            # DA、DB、DC：三棱锥的侧棱，用不同线型突出几何关系。
+            seg_DH = Line(D, H, color=CLR_CREAM, stroke_width=2)
+            seg_OH = Line(O, H, color=YELLOW, stroke_width=2)
+            seg_DA = DashedLine(D, pt_A, color=CLR_SKY, stroke_width=3)
+            seg_DB = Line(D, pt_B, color=CLR_SKY, stroke_width=2.5)
+            seg_DC = Line(D, pt_C, color=CLR_SKY, stroke_width=2.5)
+
+            # ---- 6.10 状态文字：O 在三棱锥内部 / 外部 ----
+            # h < 0：底面在球心下方，O 位于 D 与底面之间，故在内部。
+            # h > 0：底面在球心上方，O 在三棱锥外部。
+            # h ≈ 0：O 与底面共面。
+            if h < -1e-3:
+                status = Text("O 在三棱锥 D-ABC 内部", font=FONT_CN,
+                              color=CLR_TEAL, font_size=22)
+            elif h > 1e-3:
+                status = Text("O 在三棱锥 D-ABC 外部", font=FONT_CN,
+                              color=CLR_CRIMSON, font_size=22)
+            else:
+                status = Text("O 与底面 ABC 共面", font=FONT_CN,
+                              color=YELLOW, font_size=22)
+            status.next_to(ax, DOWN, buff=0.25)
+
+            # ---- 6.11 图层顺序 ----
+            # Manim 中后加入的对象会覆盖先加入的对象。
+            # 顺序：后面虚线圆 → 三角形填充 → 前面实线圆 → 点与标签 → 线段 → 状态文字。
+            # 这样前面的实线圆会盖住三角形边缘，三角形又会盖住后面的虚线圆，层次分明。
+            return VGroup(
+                circum_back, tri, circum_front,
+                dots_ABC, lbls_ABC,
+                dot_H, lbl_H,
+                seg_DH, seg_OH,
+                seg_DA, seg_DB, seg_DC,
+                status,
+            )
+
+        # ============================================================
+        # 7. 动画控制：用 ValueTracker 让底面沿轴线平滑移动
+        # ============================================================
+        # ValueTracker 创建一个可被动画驱动的数值，初始为 -0.75R，表示 H 在 O 下方。
+        h_tracker = ValueTracker(-0.75 * R)
+
+        # 生成初始底面。
+        base = make_base(h_tracker.get_value())
+
+        # add_updater：每一帧根据 h_tracker 的当前值重新生成底面。
+        # m.become(...) 用新的 VGroup 替换原有内容，从而实现平滑连续变化。
+        base.add_updater(lambda m: m.become(make_base(h_tracker.get_value())))
+
+        # ============================================================
+        # 8. 把静态元素加入场景
+        # ============================================================
+        # 注意顺序：背半球虚线在底层，前半球实线在上层，这样才有球的立体感。
+        self.add(sphere_back, sphere, axis,
+                 dot_O, lbl_O, dot_D, lbl_D, base)
+        self.wait(0.5)
+
+        # ============================================================
+        # 9. 播放动画：h 从 -0.75R 移动到 +0.75R，再自动返回
+        # ============================================================
+        # there_and_back 会先正向再反向，省去写两个动画的麻烦。
+        self.play(
+            h_tracker.animate.set_value(0.75 * R),
+            run_time=8,
+            rate_func=there_and_back,
+        )
+        self.wait(1)

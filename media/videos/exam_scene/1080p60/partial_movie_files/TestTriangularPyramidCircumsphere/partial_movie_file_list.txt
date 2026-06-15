@@ -1,0 +1,4 @@
+# This file is used internally by FFMPEG.
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/1080p60/partial_movie_files/TestTriangularPyramidCircumsphere/3544663784_2574473371_3761759704.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/1080p60/partial_movie_files/TestTriangularPyramidCircumsphere/260329756_2890084297_3760013628.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/1080p60/partial_movie_files/TestTriangularPyramidCircumsphere/260329756_1432596116_4175718387.mp4'
