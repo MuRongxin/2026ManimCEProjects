@@ -1831,7 +1831,7 @@ class Q14(Scene):
         self.wait(0.5)
 
         # 移除 updater，定格到最终位置
-        dynamic.clear_updaters()
+        # dynamic.clear_updaters()
         self.wait(0.5)
 
         s14_1 = VGroup(
@@ -1846,13 +1846,13 @@ class Q14(Scene):
                   font=FONT_CN, color=CLR_SKY, font_size=22),
             Text("设 H 为 △ABC 中心。",
                   font=FONT_CN, color=CLR_SKY, font_size=22),
-        ).arrange(DOWN, aligned_edge=LEFT, buff=0.1)
+        ).arrange(RIGHT, buff=0.1)
         s14_2.next_to(s14_1, DOWN, buff=0.15, aligned_edge=LEFT)
 
         s14_3 = VGroup(
-            Text("O、H、D 共线。", font=FONT_CN, color=CLR_SKY, font_size=22),
+            Text(" 可得 O、H、D 共线。", font=FONT_CN, color=CLR_SKY, font_size=22),
             Text("设 △ABC 外接圆半径 r，OH=d", font=FONT_CN, color=CLR_SKY, font_size=22),
-        ).arrange(DOWN, aligned_edge=LEFT, buff=0.08)
+        ).arrange(RIGHT, buff=0.08)
         s14_3.next_to(s14_2, DOWN, buff=0.1, aligned_edge=LEFT)
 
         s14_4 = VGroup(
@@ -1864,15 +1864,45 @@ class Q14(Scene):
         s14_5 = VGroup(
             MathTex(r"DC^2=DH^2+r^2 \;\Rightarrow\; 4=DH^2+r^2", color=CLR_ROSE, stroke_width=1, font_size=28),
         ).arrange(RIGHT, buff=0.08)
-        s14_5.next_to(s14_4, DOWN, buff=0.15, aligned_edge=LEFT)
+        s14_5.next_to(s14_4[1], DOWN, buff=0.15, aligned_edge=LEFT)
 
-        s14_6 = VGroup(
+        s14_brace=Brace(VGroup(s14_4,s14_5),RIGHT,buff=.1,stroke_width=.1)
+        
+        s14_5b = VGroup(
             Text("相减得 ", font=FONT_CN, color=CLR_SKY, font_size=22),
-            MathTex(r"DH^2-d^2=1", color=CLR_ROSE, stroke_width=1, font_size=28),
-            Text("，又 O、D 在 H 异侧：", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"DH^2-d^2=1", color=CLR_CREAM, stroke_width=1, font_size=28),
+        ).arrange(RIGHT, buff=0.08)
+        s14_5b.next_to(s14_brace, RIGHT, buff=0.15)
+
+        s14_5c = VGroup(
+            Text("若 O 在 D,H 之间 ⇒ ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"DH=R+d=\sqrt{3}+d;", color=CLR_CREAM, stroke_width=1, font_size=26),
+        ).arrange(RIGHT, buff=0.08)
+        s14_5c.next_to(s14_5, DOWN, buff=0.1).align_to(s14_4, LEFT)
+
+        s14_5d = VGroup(
+            Text("代入得 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"3+2\sqrt{3}d=1 \;\Rightarrow\; d<0", color=CLR_CREAM, stroke_width=1, font_size=26),
+            Text("，矛盾！", font=FONT_CN, color=CLR_SKY, font_size=22),
+        ).arrange(RIGHT, buff=0.08)
+        s14_5d.next_to(s14_5c, RIGHT, buff=0.1)
+
+        s14_5e = VGroup(
+            Text("故 H 在 O,D 之间 ⇒ ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"DH=R-d=\sqrt{3}-d", color=CLR_ROSE, stroke_width=1, font_size=26),
+            Text(" ⇒ ", font=FONT_CN, color=CLR_SKY, font_size=22),
             MathTex(r"DH+d=\sqrt{3}", color=CLR_ROSE, stroke_width=1, font_size=28),
         ).arrange(RIGHT, buff=0.08)
-        s14_6.next_to(s14_5, DOWN, buff=0.15, aligned_edge=LEFT)
+        s14_5e.next_to(s14_5c, DOWN, buff=0.12, aligned_edge=LEFT)
+
+        s14_6 = VGroup(
+            Text("由 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"DH^2-d^2=1", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text(" 及 ", font=FONT_CN, color=CLR_SKY, font_size=22),
+            MathTex(r"DH+d=\sqrt{3}", color=CLR_ROSE, stroke_width=1, font_size=28),
+            Text(" 解得：", font=FONT_CN, color=CLR_SKY, font_size=22),
+        ).arrange(RIGHT, buff=0.08)
+        s14_6.next_to(s14_5e, DOWN, buff=0.15, aligned_edge=LEFT)
 
         s14_7 = VGroup(
             Text("解得 ", font=FONT_CN, color=CLR_SKY, font_size=22),
@@ -1885,11 +1915,26 @@ class Q14(Scene):
 
         self.play(LaggedStart(
             Write(s14_1), Write(s14_2), Write(s14_3),
-            lag_ratio=0.6,
+            lag_ratio=0.7,
         ))
         self.play(LaggedStart(
-            Write(s14_4), Write(s14_5), Write(s14_6), Write(s14_7),
+            Write(s14_4), Write(s14_5),Create(s14_brace), Write(s14_5b),
+            lag_ratio=0.8,
+        ))
+        self.wait()
+               
+        self.play(LaggedStart(
+            Write(s14_5c), Write(s14_5d), 
             lag_ratio=0.6,
+        ))
+        self.wait()
+        
+        self.play(h_tracker.animate.set_value(0.55 * R)) 
+
+        self.play(LaggedStart(
+            Write(s14_5e),
+            Write(s14_6), Write(s14_7),
+            lag_ratio=0.9,
         ))
         self.wait(2)
 
