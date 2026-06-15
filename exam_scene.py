@@ -1939,6 +1939,449 @@ class Q14(Scene):
         self.wait(2)
 
 
+
+
+
+
+
+
+
+
+
+
+class Q15(Scene):
+    def construct(self):
+        title, titlePos = AddTitle(self, "频率分布直方图", font_size=31)
+        self.play(title)
+
+        # ---- 题干（一行）+ (1)(2) 对齐题干首字 + (i)(ii) 对齐 (2) 题干首字 ----
+        q15_stem = Text(
+            "15.（13 分）某工厂抽取一批电子元件检测，记录第一次出现故障的时间（天），绘制成如下的频率分布直方图：",
+            font=FONT_CN, font_size=20, color=WHITE,
+        )
+
+        q15_q1 = Text(
+            "(1) 求第一次出现故障的时间的第一四分位数和中位数；",
+            font=FONT_CN, font_size=20, color=WHITE,
+        )
+
+        q15_q2_label = Text("(2) ", font=FONT_CN, font_size=20, color=WHITE)
+        q15_q2_body = VGroup(
+            MathTex(r"\hat{p}", font_size=22, color=WHITE,stroke_width=1),
+            Text(" 为首次故障时间小于 365 天的概率估计值．", font=FONT_CN, font_size=20, color=WHITE),
+        ).arrange(RIGHT, buff=0.02)
+        q15_q2 = VGroup(q15_q2_label, q15_q2_body).arrange(RIGHT, aligned_edge=LEFT)
+
+        q15_q2i_label = Text("(i) 求", font=FONT_CN, font_size=20, color=WHITE)
+        q15_q2i_body = MathTex(
+            r"\hat{p} ",
+            font_size=25, color=WHITE,stroke_width=1
+        )
+        q15_q2i = VGroup(q15_q2i_label, q15_q2i_body).arrange(RIGHT, aligned_edge=LEFT)
+        q15_q2i.align_to(q15_q2_body, LEFT)
+
+        q15_q2ii_label = Text("(ii)", font=FONT_CN, font_size=20, color=WHITE)
+        q15_q2ii_body1 = Text("工厂向某用户销售 100 件电子元件，", font=FONT_CN, font_size=20, color=WHITE)
+        q15_q2ii_body2 = VGroup(
+            MathTex(r"X", font_size=22, color=WHITE,stroke_width=1),
+            Text(" 为这 100 件产品首次出现故障小于 365 天的件数，", font=FONT_CN, font_size=20, color=WHITE),
+        ).arrange(RIGHT, buff=0.02)
+        q15_q2ii_line1 = VGroup(q15_q2ii_label, q15_q2ii_body1, q15_q2ii_body2).arrange(RIGHT,buff=.1)
+
+        q15_q2ii_line2 = VGroup(
+            Text("若 ", font=FONT_CN, font_size=20, color=WHITE),
+            MathTex(r"X \sim B(100, \hat{p})", font_size=22, color=WHITE,stroke_width=1),
+            Text("，求 ", font=FONT_CN, font_size=20, color=WHITE),
+            MathTex(r"E(X)", font_size=22, color=WHITE,stroke_width=1),
+            Text("，", font=FONT_CN, font_size=20, color=WHITE),
+            MathTex(r"D(X)", font_size=22, color=WHITE,stroke_width=1),
+            Text("．", font=FONT_CN, font_size=20, color=WHITE),
+        ).arrange(RIGHT, buff=0.02)
+        
+        
+        
+
+        q15 = VGroup(
+            q15_stem,
+            q15_q1,
+            q15_q2,
+            q15_q2i,
+            q15_q2ii_line1,
+            q15_q2ii_line2,
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.22)
+
+        q15_q1.align_to(q15_stem[3], LEFT)
+        q15_q2.align_to(q15_q1, LEFT)
+        q15_q2i.align_to(q15_q2_body[0], LEFT)
+
+        q15_q2ii_line1.align_to(q15_q2i, LEFT)
+        q15_q2ii_line2.align_to(q15_q2ii_body1, LEFT)
+
+        q15.scale(0.9)
+        q15.next_to(titlePos, DOWN, buff=.6).align_to(titlePos, LEFT)
+        self.play(Write(q15))
+
+        # ---- 频率分布直方图 ----
+        hist = problems.problem_15_histogram().scale(0.85)
+        hist.to_edge(RIGHT, buff=0.25).shift(DOWN * 1.2)
+        self.play(LaggedStart(
+            Create(hist[0]),  # axes
+            Create(hist[3]),  # bars
+            Write(hist[1]), Write(hist[2]),  # labels
+            lag_ratio=0.3,
+        ))
+        self.wait(0.5)
+
+        # ---- 解答 ----
+        # 左列：(1) 第一四分位数和中位数
+        s15_1 = VGroup(
+            Text("组距为 10，各组频率：", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"0.05,0.10,0.20,0.25,0.15,0.15,0.05,0.05", color=CLR_ROSE,
+                    stroke_width=1, font_size=22),
+        ).arrange(RIGHT, buff=0.08)
+
+        s15_2 = Text("第一四分位数：累积到 365 为 0.15，落在 [365,375) 内",
+                     font=FONT_CN, color=CLR_SKY, font_size=20)
+
+        s15_3 = MathTex(r"Q_1=365+10\times\frac{0.25-0.15}{0.20}=370",
+                        color=CLR_ROSE, stroke_width=1, font_size=24)
+
+        s15_4 = Text("中位数：累积到 375 为 0.35，落在 [375,385) 内",
+                     font=FONT_CN, color=CLR_SKY, font_size=20)
+
+        s15_4b = VGroup(
+            Text("中位数 = ", font=FONT_CN, font_size=20, color=CLR_ROSE),
+            MathTex(r"375+10\times\frac{0.50-0.35}{0.25}=381",
+                    color=CLR_ROSE, stroke_width=1, font_size=24),
+        ).arrange(RIGHT, buff=0.08)
+
+        left_col = VGroup(s15_1, s15_2, s15_3, s15_4, s15_4b).arrange(
+            DOWN, aligned_edge=LEFT, buff=0.12)
+        left_col.next_to(q15, DOWN, buff=0.3).align_to(q15_q1, LEFT).shift(DOWN * 0.3)
+
+        # 右列：(2) 概率估计与二项分布
+        s15_5 = VGroup(
+            Text("(i) ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"\hat{p}=P(X<365)=0.05+0.10=0.15", color=CLR_ROSE,
+                    stroke_width=1, font_size=24),
+        ).arrange(RIGHT, buff=0.08)
+
+        s15_6 = VGroup(
+            Text("(ii) ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"X\sim B(100,0.15)", color=CLR_ROSE, stroke_width=1, font_size=24),
+        ).arrange(RIGHT, buff=0.08)
+
+        s15_7 = MathTex(r"E(X)=100\times0.15=15", color=CLR_ROSE, stroke_width=1, font_size=26)
+        s15_8 = MathTex(r"D(X)=100\times0.15\times0.85=12.75", color=CLR_ROSE,
+                        stroke_width=1, font_size=26)
+
+        right_col = VGroup(s15_5, s15_6, s15_7, s15_8).arrange(
+            DOWN, aligned_edge=LEFT, buff=0.12)
+        right_col.next_to(hist, UP, buff=0.3).align_to(hist, RIGHT)
+
+        self.play(LaggedStart(
+            Write(s15_1), Write(s15_2), Write(s15_3), Write(s15_4), Write(s15_4b),
+            lag_ratio=0.4,
+        ))
+        self.wait(0.3)
+        self.play(LaggedStart(
+            Write(s15_5), Write(s15_6), Write(s15_7), Write(s15_8),
+            lag_ratio=0.4,
+        ))
+        self.wait(2)
+
+
+class Q16(Scene):
+    def construct(self):
+        title, titlePos = AddTitle(self, "三棱锥几何证明", font_size=31)
+        self.play(title)
+
+        q16 = problems.problem_16()
+        q16.scale(0.9)
+        q16.next_to(titlePos, DOWN, buff=.3).align_to(titlePos, LEFT)
+        self.play(Write(q16))
+
+        # ---- 三棱锥示意图（在 scene 内构建，方便证明时单独控制每条线/面）----
+        ax = Axes(
+            x_range=[0, 4, 1],
+            y_range=[0, 4, 1],
+            x_length=3.5,
+            y_length=3.5,
+            axis_config={"stroke_width": 0},
+            tips=False,
+        )
+        ax.to_edge(RIGHT, buff=0.6).shift(DOWN * 0.2)
+
+        # 顶点（与 problems.problem_16_fig 保持一致）
+        D = ax.c2p(0, 0)
+        C = ax.c2p(3, 0)
+        B = ax.c2p(2, 1.2)
+        A = ax.c2p(1.5, 3.5)
+        E = ax.c2p(1.1, 0.66)
+
+        sw = 2.4  # 线宽
+
+        # ---- 平面（默认透明，证明时可单独 FadeIn）----
+        plane_ABC = Polygon(A, B, C, color=CLR_SKY, stroke_width=0,
+                            fill_opacity=0, fill_color=CLR_SKY)
+        plane_ACD = Polygon(A, C, D, color=CLR_MINT, stroke_width=0,
+                            fill_opacity=0, fill_color=CLR_MINT)
+        plane_ADE = Polygon(A, D, B, color=CLR_ROSE, stroke_width=0,
+                            fill_opacity=0, fill_color=CLR_ROSE)
+        plane_BCD = Polygon(B, C, D, color=CLR_CORNFLOWER, stroke_width=0,
+                            fill_opacity=0, fill_color=CLR_CORNFLOWER)
+
+        # ---- 棱（虚线放后，实线放前）----
+        line_DB = DashedLine(D, B, color=WHITE, stroke_width=sw)
+        line_CB = DashedLine(C, B, color=WHITE, stroke_width=sw)
+        line_AB = DashedLine(A, B, color=WHITE, stroke_width=sw)
+        line_AE = DashedLine(A, E, color=WHITE, stroke_width=sw)
+        line_CE = DashedLine(C, E, color=WHITE, stroke_width=sw)
+
+        line_DC = Line(D, C, color=WHITE, stroke_width=sw)
+        line_AD = Line(A, D, color=WHITE, stroke_width=sw)
+        line_AC = Line(A, C, color=WHITE, stroke_width=sw)
+
+        # ---- 顶点与标签 ----
+        dot_A = Dot(A, color=WHITE, radius=0.06)
+        dot_B = Dot(B, color=WHITE, radius=0.06)
+        dot_C = Dot(C, color=WHITE, radius=0.06)
+        dot_D = Dot(D, color=WHITE, radius=0.06)
+        dot_E = Dot(E, color=WHITE, radius=0.06)
+
+        lbl_A = MathTex(r"A", color=WHITE, font_size=20, stroke_width=1).next_to(A, UP, buff=0.08)
+        lbl_B = MathTex(r"B", color=WHITE, font_size=20, stroke_width=1).next_to(B, UR, buff=0.05)
+        lbl_C = MathTex(r"C", color=WHITE, font_size=20, stroke_width=1).next_to(C, DR, buff=0.05)
+        lbl_D = MathTex(r"D", color=WHITE, font_size=20, stroke_width=1).next_to(D, DL, buff=0.05)
+        lbl_E = MathTex(r"E", color=WHITE, font_size=20, stroke_width=1).next_to(E, LEFT, buff=0.08)
+
+        # 组装：平面在最底层 -> 虚线 -> 实线 -> 点和标签
+        fig = VGroup(
+            plane_ABC, plane_ACD, plane_ADE, plane_BCD,
+            line_DB, line_CB, line_AB, line_AE, line_CE,
+            line_DC, line_AD, line_AC,
+            dot_A, dot_B, dot_C, dot_D, dot_E,
+            lbl_A, lbl_B, lbl_C, lbl_D, lbl_E,
+        )
+        fig.scale(1.2)
+
+        self.play(Create(fig), run_time=2)
+        self.wait(0.5)
+
+        # ============================================================
+        # 第 (1) 问证明：CD ⊥ AB
+        # ============================================================
+        # 辅助函数：把若干对象高亮后恢复
+        def highlight(*mobs, color=YELLOW, run_time=0.8):
+            return AnimationGroup(*[
+                mob.animate.set_color(color) for mob in mobs
+            ], lag_ratio=0)
+
+        def restore(*mobs, run_time=0.6):
+            return AnimationGroup(*[
+                mob.animate.set_color(WHITE) for mob in mobs
+            ], lag_ratio=0)
+
+        # ---- 步骤 1：摆出已知条件 ----
+        s16_0 = Text("证明：", font=FONT_CN, color=CLR_SKY, font_size=22)
+        s16_0.next_to(q16, DOWN, buff=0.4, aligned_edge=LEFT)
+        self.play(Write(s16_0))
+
+        known = VGroup(
+            MathTex(r"AE \perp CE", color=CLR_ROSE, font_size=24, stroke_width=1),
+            MathTex(r"AE \perp DE", color=CLR_ROSE, font_size=24, stroke_width=1),
+            MathTex(r"CD \perp AD", color=CLR_ROSE, font_size=24, stroke_width=1),
+        ).arrange(RIGHT, buff=0.4)
+        known.next_to(s16_0, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(known))
+
+        # 高亮 AE、CE、DE
+        self.play(highlight(line_AE, line_CE, line_AE, line_AE))
+        self.wait(0.3)
+        self.play(restore(line_AE, line_CE))
+
+        # ---- 步骤 2：AE ⊥ 平面 BCD ----
+        s16_1 = VGroup(
+            MathTex(r"\because", color=CLR_SKY, font_size=24, stroke_width=1),
+            MathTex(r"AE \perp CE", color=CLR_ROSE, font_size=22, stroke_width=1),
+            MathTex(r",\;", color=CLR_SKY, font_size=22, stroke_width=1),
+            MathTex(r"AE \perp DE", color=CLR_ROSE, font_size=22, stroke_width=1),
+            MathTex(r",\;", color=CLR_SKY, font_size=22, stroke_width=1),
+            MathTex(r"CE \cap DE = E", color=CLR_ROSE, font_size=22, stroke_width=1),
+        ).arrange(RIGHT, buff=0.06)
+        s16_1.next_to(known, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s16_1))
+
+        s16_2 = VGroup(
+            MathTex(r"\therefore", color=CLR_SKY, font_size=24, stroke_width=1),
+            MathTex(r"AE \perp ", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text("平面 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"BCD", color=CLR_ROSE, font_size=22, stroke_width=1),
+        ).arrange(RIGHT, buff=0.06)
+        s16_2.next_to(s16_1, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        plane_BCD.set_fill(opacity=0.22)
+        self.play(FadeIn(plane_BCD))
+        self.play(highlight(line_AE))
+        self.play(Write(s16_2))
+        self.play(restore(line_AE))
+
+        # ---- 步骤 3：AE ⊥ CD ----
+        s16_3 = VGroup(
+            MathTex(r"\because", color=CLR_SKY, font_size=24, stroke_width=1),
+            MathTex(r"CD \subset ", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text("平面 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"BCD", color=CLR_ROSE, font_size=22, stroke_width=1),
+            MathTex(r",\;\therefore", color=CLR_SKY, font_size=24, stroke_width=1),
+            MathTex(r"AE \perp CD", color=CLR_ROSE, font_size=22, stroke_width=1),
+        ).arrange(RIGHT, buff=0.06)
+        s16_3.next_to(s16_2, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        self.play(highlight(line_DC))
+        self.play(Write(s16_3))
+        self.play(restore(line_DC))
+
+        # ---- 步骤 4：CD ⊥ 平面 ADE ----
+        s16_4 = VGroup(
+            MathTex(r"\because", color=CLR_SKY, font_size=24, stroke_width=1),
+            MathTex(r"CD \perp AD", color=CLR_ROSE, font_size=22, stroke_width=1),
+            MathTex(r",\;", color=CLR_SKY, font_size=22, stroke_width=1),
+            MathTex(r"AD \cap AE = A", color=CLR_ROSE, font_size=22, stroke_width=1),
+        ).arrange(RIGHT, buff=0.06)
+        s16_4.next_to(s16_3, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s16_4))
+
+        s16_5 = VGroup(
+            MathTex(r"\therefore", color=CLR_SKY, font_size=24, stroke_width=1),
+            MathTex(r"CD \perp ", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text("平面 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"ADE", color=CLR_ROSE, font_size=22, stroke_width=1),
+        ).arrange(RIGHT, buff=0.06)
+        s16_5.next_to(s16_4, DOWN, buff=0.15, aligned_edge=LEFT)
+
+        plane_ADE.set_fill(opacity=0.22)
+        self.play(FadeIn(plane_ADE))
+        self.play(highlight(line_DC))
+        self.play(Write(s16_5))
+        self.play(restore(line_DC))
+
+        # ---- 步骤 5：CD ⊥ AB ----
+        s16_6 = VGroup(
+            MathTex(r"\because", color=CLR_SKY, font_size=24, stroke_width=1),
+            MathTex(r"B \in BD", color=CLR_ROSE, font_size=22, stroke_width=1),
+            MathTex(r",\;\therefore", color=CLR_SKY, font_size=24, stroke_width=1),
+            MathTex(r"AB \subset ", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text("平面 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"ADE", color=CLR_ROSE, font_size=22, stroke_width=1),
+        ).arrange(RIGHT, buff=0.06)
+        s16_6.next_to(s16_5, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        s16_7 = VGroup(
+            MathTex(r"\therefore CD \perp AB", color=CLR_ROSE, font_size=28, stroke_width=1),
+        )
+        s16_7.next_to(s16_6, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        self.play(highlight(line_AB))
+        self.play(Write(s16_6))
+        self.play(Write(s16_7))
+        self.play(restore(line_AB))
+
+        self.wait(2)
+
+        # ---- 清理第 (1) 问解答，恢复示意图 ----
+        proof_objs = [s16_0, known, s16_1, s16_2, s16_3, s16_4, s16_5, s16_6, s16_7]
+        self.play(
+            AnimationGroup(*[FadeOut(m, shift=RIGHT) for m in proof_objs]),
+            plane_BCD.animate.set_fill(opacity=0),
+            plane_ADE.animate.set_fill(opacity=0),
+        )
+        self.wait(0.3)
+
+        # ============================================================
+        # 第 (2) 问：求 AD 与平面 ABC 所成角的正弦值
+        # ============================================================
+        s16_q2 = Text("（2）解：", font=FONT_CN, color=CLR_SKY, font_size=22)
+        s16_q2.next_to(q16, DOWN, buff=0.4, aligned_edge=LEFT)
+        self.play(Write(s16_q2))
+
+        # 已知条件
+        s16_q2_1 = MathTex(r"DE=2,\; BE=1,\; AE=\sqrt{2},\; CD=2\sqrt{3}",
+                           color=CLR_CREAM, font_size=22, stroke_width=1)
+        s16_q2_1.next_to(s16_q2, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s16_q2_1))
+
+        # AE \perp 平面 BCD \Rightarrow AE \perp DE \Rightarrow AD
+        s16_q2_2 = VGroup(
+            MathTex(r"\because AE \perp ", color=CLR_SKY, font_size=20, stroke_width=1),
+            Text("平面 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"BCD", color=CLR_SKY, font_size=20, stroke_width=1),
+            MathTex(r",\; AE \perp DE", color=CLR_SKY, font_size=20, stroke_width=1),
+            MathTex(r"\Rightarrow AD=\sqrt{AE^2+DE^2}=\sqrt{6}",
+                    color=CLR_ROSE, font_size=20, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+        s16_q2_2.next_to(s16_q2_1, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s16_q2_2))
+
+        # 建立坐标系
+        s16_q2_3 = Text("以 D 为原点，DB、DC、AE 方向分别为 y、x、z 轴建系：",
+                        font=FONT_CN, color=CLR_SKY, font_size=19)
+        s16_q2_3.next_to(s16_q2_2, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s16_q2_3))
+
+        # 在示意图上画空间直角坐标系（空心三角箭头，尖端偏小）
+        x_axis = Arrow(D, D + (C - D) * 1.35, color=RED, stroke_width=4, buff=0,
+                       tip_length=0.15)
+        y_axis = Arrow(D, D + (B - D) * 1.35, color=GREEN, stroke_width=4, buff=0,
+                       tip_length=0.15)
+        z_axis = Arrow(D, D + (A - E) * 1.6, color=BLUE, stroke_width=4, buff=0,
+                       tip_length=0.15)
+        lbl_x = MathTex(r"x", color=RED, font_size=22, stroke_width=1).next_to(x_axis.get_end(), DR, buff=0.05)
+        lbl_y = MathTex(r"y", color=GREEN, font_size=22, stroke_width=1).next_to(y_axis.get_end(), UR, buff=0.05)
+        lbl_z = MathTex(r"z", color=BLUE, font_size=22, stroke_width=1).next_to(z_axis.get_end(), UP, buff=0.05)
+        # 标注 DC ⊥ DB，说明坐标系是直角坐标系
+        axes_3d = VGroup(x_axis, y_axis, z_axis, lbl_x, lbl_y, lbl_z)
+        axes_3d.scale(1.2)
+        self.play(Create(axes_3d))
+
+        s16_q2_4 = MathTex(r"D(0,0,0),\; C(2\sqrt{3},0,0),\; B(0,3,0),\; A(0,2,\sqrt{2})",
+                           color=CLR_CREAM, font_size=19, stroke_width=1)
+        s16_q2_4.next_to(s16_q2_3, DOWN, buff=0.15, aligned_edge=LEFT)
+        self.play(Write(s16_q2_4))
+
+        # 向量 AB、AC
+        s16_q2_5 = VGroup(
+            MathTex(r"\overrightarrow{AB}=(0,1,-\sqrt{2})", color=CLR_CREAM,
+                    font_size=19, stroke_width=1),
+            MathTex(r"\overrightarrow{AC}=(2\sqrt{3},-2,-\sqrt{2})", color=CLR_CREAM,
+                    font_size=19, stroke_width=1),
+        ).arrange(RIGHT, buff=0.3)
+        s16_q2_5.next_to(s16_q2_4, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s16_q2_5))
+
+        # 法向量
+        s16_q2_6 = MathTex(r"\boldsymbol{n}=\overrightarrow{AB}\times\overrightarrow{AC}"
+                           r"=(3,2\sqrt{3},\sqrt{6})",
+                           color=CLR_ROSE, font_size=19, stroke_width=1)
+        s16_q2_6.next_to(s16_q2_5, DOWN, buff=0.15, aligned_edge=LEFT)
+        self.play(Write(s16_q2_6))
+
+        # 计算 sinθ
+        s16_q2_7 = MathTex(r"\sin\theta=\frac{|\overrightarrow{AD}\cdot\boldsymbol{n}|}"
+                           r"{|\overrightarrow{AD}||\boldsymbol{n}|}"
+                           r"=\frac{6\sqrt{3}}{\sqrt{6}\cdot3\sqrt{3}}=\frac{\sqrt{6}}{3}",
+                           color=CLR_ROSE, font_size=22, stroke_width=1)
+        s16_q2_7.next_to(s16_q2_6, DOWN, buff=0.2, aligned_edge=LEFT)
+
+        # 配合示意图：高亮 AD 和平面 ABC
+        plane_ABC.set_fill(opacity=0.22)
+        self.play(FadeIn(plane_ABC))
+        self.play(highlight(line_AD))
+        self.play(Write(s16_q2_7))
+        self.play(restore(line_AD))
+
+        self.wait(2)
+
+
 class TrirPyrCir(Scene):
     """
     三棱锥外接球动态演示：底面 ABC 沿轴线上下移动，

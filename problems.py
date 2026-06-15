@@ -724,29 +724,42 @@ def problem_14(text_size: int = DEFAULT_TEXT_SIZE,
 def problem_15_histogram() -> VGroup:
     """频率分布直方图：坐标轴 + 直方图 + 标签"""
     axes = Axes(
-        x_range=[340, 430, 10], y_range=[0, 0.03, 0.005],
+        x_range=[340, 430, 10], y_range=[0, 0.025, 0.005],
         x_length=5, y_length=2.5,
-        axis_config={"color": CLR_CREAM, "stroke_width": 1},
-        x_axis_config={"numbers_to_include": range(350, 430, 10)},
-        y_axis_config={"numbers_to_include": np.arange(0, 0.031, 0.005)},
+        axis_config={"color": CLR_CREAM, 
+                     "stroke_width": 1, 
+                     "tip_length": 0.1,
+                     "tip_width":0.1,
+                     "include_tip": False},
+        x_axis_config={"numbers_to_include": range(345, 430, 10),
+                       "font_size": 20},
+        y_axis_config={"numbers_to_include": np.arange(0, 0.030, 0.005),
+                       "font_size": 20},
     )
-    x_label = axes.get_x_axis_label(
-        Text("时间（天）", font=FONT_CN, font_size=16, color=CLR_CREAM),
-        edge=DOWN, buff=.2,
-    )
-    y_label = axes.get_y_axis_label(
-        Text("频率/组距", font=FONT_CN, font_size=16, color=CLR_CREAM),
-        edge=LEFT, buff=.2,
-    )
+    # x_label = Text("时间（天）", font=FONT_CN, font_size=14, color=CLR_CREAM)
+    # x_label.next_to(axes.x_axis, DOWN, buff=0.1).shift(RIGHT)
+    x_label = axes.get_x_axis_label(                                                                                  
+         Text("时间（天）", font=FONT_CN, font_size=14),                                                               
+         edge=RIGHT,       # 在 x 轴的哪一侧：DOWN / UP                                                                 
+         buff=0.1,        # 与轴的距离                                                                                 
+     ) 
+    
+    # y_label = Text("频率/组距", font=FONT_CN, font_size=14, color=CLR_CREAM)
+    # y_label.next_to(axes.y_axis, LEFT, buff=0.1).rotate(PI / 2)
+    y_label = axes.get_y_axis_label(                                                                                  
+        Text("频率/组距", font=FONT_CN, font_size=14),                                                                
+        edge=UP,       # 在 y 轴的哪一侧：LEFT / RIGHT                                                              
+        buff=0.1,                                                                                                     
+    )  
 
     data = [
         (345, 355, 0.005),
         (355, 365, 0.010),
-        (365, 375, 0.015),
-        (375, 385, 0.020),
-        (385, 395, 0.025),
+        (365, 375, 0.020),
+        (375, 385, 0.025),
+        (385, 395, 0.015),
         (395, 405, 0.015),
-        (405, 415, 0.0075),
+        (405, 415, 0.005),
         (415, 425, 0.005),
     ]
     bars = VGroup()
@@ -884,7 +897,7 @@ def problem_16(text_size: int = DEFAULT_TEXT_SIZE,
         _T("，", font_size=ts),
         _M("BE=1", font_size=ms),
         _T("，", font_size=ts),
-        _M("AE=2", font_size=ms),
+        _M(r"AE=\sqrt{2}", font_size=ms),
         _T("，", font_size=ts),
         _M(r"CD=2\sqrt{3}", font_size=ms),
         _T("，", font_size=ts),
