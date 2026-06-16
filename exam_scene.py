@@ -2391,6 +2391,7 @@ class Q17(Scene):
         q17.scale(0.9)
         q17.next_to(titlePos, DOWN, buff=.25).align_to(titlePos, LEFT)
         self.play(Write(q17))
+        self.wait()
 
         # ============================================================
         # 第 (1) 问：证明钝角三角形
@@ -2545,43 +2546,414 @@ class Q17(Scene):
         self.play(Write(s17_q2_2))
 
         s17_q2_3 = VGroup(
-            MathTex(r"\therefore ac=2,", color=CLR_ROSE, font_size=25, stroke_width=1),
-            MathTex(r"\, b^2 = ac = 2", color=CLR_SKY, font_size=25, stroke_width=1),
+            MathTex(r"\therefore ac=2,", color=CLR_ROSE, font_size=28, stroke_width=1),
+            MathTex(r"\, b^2 = ac = 2", color=CLR_SKY, font_size=28, stroke_width=1),
             Text("（由第（1）问）", font=FONT_CN, color=CLR_SKY, font_size=17),
-                ).arrange(RIGHT, buff=0.15)
+                ).arrange(RIGHT, buff=0.15,aligned_edge=DOWN)
         s17_q2_3.next_to(s17_q2_1, DOWN, buff=0.12, aligned_edge=LEFT)
         self.play(Write(s17_q2_3))
 
         s17_q2_4 = VGroup(
-            Text("由第（1）问: ", font=FONT_CN, color=CLR_SKY, font_size=17),
-            MathTex(r"a^2+c^2=\frac{5}{2}ac=5", color=CLR_CREAM, font_size=25, stroke_width=1),
+            Text("由第（1）问: ", font=FONT_CN, color=CLR_SKY, font_size=19),
+            MathTex(r"a^2+c^2=\frac{5}{2}ac=5", color=CLR_CREAM, font_size=28, stroke_width=1),
         
         ).arrange(RIGHT, buff=0.08)
         s17_q2_4.next_to(s17_q2_3, DOWN, buff=0.2, aligned_edge=LEFT)
         self.play(Write(s17_q2_4))
 
         s17_q2_5 = MathTex(r"\because(a+c)^2=a^2+c^2+2ac=9",
-                           color=CLR_ROSE, font_size=25, stroke_width=1)
+                           color=CLR_ROSE, font_size=28, stroke_width=1)
         s17_q2_5.next_to(s17_q2_4, DOWN, buff=0.2, aligned_edge=LEFT)
         self.play(Write(s17_q2_5))
 
         s17_q2_6 = MathTex(r"\therefore a+c=3",
-                           color=CLR_CREAM, font_size=25, stroke_width=1)
+                           color=CLR_CREAM, font_size=28, stroke_width=1)
         s17_q2_6.next_to(s17_q2_5, DOWN, buff=0.2, aligned_edge=LEFT)
         self.play(Write(s17_q2_6))
 
         s17_q2_6b = MathTex(r"\because b=\sqrt{2}",
-                            color=CLR_CREAM, font_size=25, stroke_width=1)
+                            color=CLR_CREAM, font_size=28, stroke_width=1)
         s17_q2_6b.next_to(s17_q2_6, DOWN, buff=0.2, aligned_edge=LEFT)
         self.play(Write(s17_q2_6b))
 
         s17_q2_7 = VGroup(
             MathTex(r"\therefore", color=CLR_ROSE, font_size=22, stroke_width=1),
-            Text("周长", font=FONT_CN, color=CLR_ROSE, font_size=20),
-            MathTex(r"=a+b+c=3+\sqrt{2}", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text("周长", font=FONT_CN, color=CLR_ROSE, font_size=22),
+            MathTex(r"=a+b+c=3+\sqrt{2}", color=CLR_ROSE, font_size=28, stroke_width=1),
         ).arrange(RIGHT, buff=0.08)
         s17_q2_7.next_to(s17_q2_6b, DOWN, buff=0.2, aligned_edge=LEFT)
         self.play(Write(s17_q2_7))
+
+        self.wait(2)
+
+
+class Q18(Scene):
+    def construct(self):
+        title, titlePos = AddTitle(self, "椭圆与轨迹", font_size=31)
+        self.play(title)
+
+        # 显示完整题目
+        q18 = problems.problem_18()
+        q18.scale(0.9)
+        q18.next_to(titlePos, DOWN, buff=.3).align_to(titlePos, LEFT)
+        self.play(Write(q18))
+        self.wait(2)
+
+        # 完整题目中的第 (1)(2) 小问淡出，保留题干
+        q_18= VGroup(q18[0].copy(), q18[1][:-1].copy()).arrange(RIGHT, buff=0.1)
+        q_18.next_to(titlePos, DOWN, buff=.3).align_to(titlePos, LEFT)
+
+        self.play(ReplacementTransform(q18,q_18))
+        self.wait(0.3)
+
+        # ============================================================
+        # 第 (1) 问：求离心率
+        # ============================================================
+        q18_q1 = Text("（1）求 E 的离心率", font=FONT_CN, color=CLR_SKY, font_size=24)
+        q18_q1.next_to(q18, DOWN, buff=0.4).align_to(titlePos, LEFT)
+        self.play(FadeIn(q18_q1,shift = LEFT))
+
+        s18_q1_1 = VGroup(
+            Text("设椭圆半焦距为 ", font=FONT_CN, color=CLR_CREAM, font_size=20),
+            MathTex(r"c", color=CLR_CREAM, font_size=22, stroke_width=1),
+            Text("，则 ", font=FONT_CN, color=CLR_CREAM, font_size=20),
+            MathTex(r"c^2=a^2-1", color=CLR_CREAM, font_size=28, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+        s18_q1_1.next_to(q18_q1, DOWN, buff=0.25, aligned_edge=LEFT)
+        self.play(Write(s18_q1_1))
+
+        s18_q1_2 = VGroup(
+            Text("过右焦点垂直于 ", font=FONT_CN, color=CLR_CREAM, font_size=20),
+            MathTex(r"x", color=CLR_CREAM, font_size=22, stroke_width=1),
+            Text(" 轴的弦长为 ", font=FONT_CN, color=CLR_CREAM, font_size=20),
+            MathTex(r"\frac{2}{a}", color=CLR_CREAM, font_size=28, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+        s18_q1_2.next_to(s18_q1_1, DOWN, buff=0.15, aligned_edge=LEFT)
+        self.play(Write(s18_q1_2))
+
+        s18_q1_3 = MathTex(r"\therefore \frac{2}{a}=\sqrt{2}\Rightarrow a=\sqrt{2}",
+                           color=CLR_ROSE, font_size=28, stroke_width=1)
+        s18_q1_3.next_to(s18_q1_2, DOWN, buff=0.15, aligned_edge=LEFT)
+        self.play(Write(s18_q1_3))
+
+        s18_q1_4 = MathTex(r"c^2=2-1=1\Rightarrow c=1",
+                           color=CLR_CREAM, font_size=28, stroke_width=1)
+        s18_q1_4.next_to(s18_q1_3, DOWN, buff=0.15, aligned_edge=LEFT)
+        self.play(Write(s18_q1_4))
+
+        s18_q1_5 = MathTex(r"\therefore e=\frac{c}{a}=\frac{1}{\sqrt{2}}=\frac{\sqrt{2}}{2}",
+                           color=CLR_ROSE, font_size=28, stroke_width=1)
+        s18_q1_5.next_to(s18_q1_4, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s18_q1_5))
+
+        self.wait(2)
+
+        # 第 (1) 问淡出
+        self.play(FadeOut(q18_q1, s18_q1_1, s18_q1_2, s18_q1_3, s18_q1_4, s18_q1_5, shift=LEFT))
+        self.wait()
+
+        # ============================================================
+        # 第 (2) 问：求轨迹方程
+        # ============================================================
+        q18_q2_line1 = VGroup(
+            Text("（2）", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"O", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 为坐标原点，给定点 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"G(t_0,0)\,(t_0\neq0)", color=CLR_ROSE, font_size=18, stroke_width=1),
+            Text("，", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"A(x_0,y_0)\,(y_0\neq0)", color=CLR_ROSE, font_size=18, stroke_width=1),
+            Text(" 在 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"E", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 上，", font=FONT_CN, color=CLR_SKY, font_size=18),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        q18_q2_line2 = VGroup(
+            Text("过点 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"A", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 作 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"y", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 轴的垂线，垂足为 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"B", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text("，", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"AO", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 与 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"GB", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 交于点 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"P", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text("，当 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"A", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 在 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"E", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 上运动时，", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"P", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 的轨迹为 ", font=FONT_CN, color=CLR_SKY, font_size=18),
+            MathTex(r"M", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text("。", font=FONT_CN, color=CLR_SKY, font_size=18),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        q18_q2 = VGroup(q18_q2_line1, q18_q2_line2).arrange(DOWN, aligned_edge=LEFT, buff=0.08)
+        q18_q2_line2.align_to(q18_q2_line1[1], LEFT)
+        q18_q2.next_to(q18, DOWN, buff=0.25).align_to(titlePos, LEFT)
+        self.play(Write(q18_q2))
+
+        # 第 (2) 问 (i)
+        q18_q2i = Text("（i）求 M 的方程，并说明 M 是什么曲线", font=FONT_CN, color=CLR_SKY, font_size=18)
+        q18_q2i.next_to(q18_q2, DOWN, buff=0.15, aligned_edge=LEFT)
+        self.play(Write(q18_q2i))
+
+        # 右侧示意图（取 t_0=√2，使 G 为椭圆右顶点，便于观察）
+        ax = Axes(x_range=[-3, 3, 1], y_range=[-2, 2, 1], x_length=4.5, y_length=3,
+                  axis_config={"stroke_width": 2}, tips=False)
+        ax.scale(1.2).to_edge(RIGHT, buff=0.5)
+
+        ellipse = ParametricFunction(
+            lambda t: ax.c2p(np.sqrt(2)*np.cos(t), np.sin(t)),
+            t_range=[0, 2*PI],
+            color=BLUE, stroke_width=3
+        )
+
+        O_pt = ax.c2p(0, 0)
+        G_pt = ax.c2p(np.sqrt(2), 0)
+        A_pt = ax.c2p(1, 1/np.sqrt(2))
+        B_pt = ax.c2p(0, 1/np.sqrt(2))
+        P_pt = ax.c2p(2-np.sqrt(2), np.sqrt(2)-1)
+
+        dot_O = Dot(O_pt, color=WHITE, radius=0.05)
+        dot_G = Dot(G_pt, color=CLR_ROSE, radius=0.05)
+        dot_A = Dot(A_pt, color=CLR_ROSE, radius=0.05)
+        dot_B = Dot(B_pt, color=CLR_ROSE, radius=0.05)
+        dot_P = Dot(P_pt, color=CLR_MINT, radius=0.07)
+
+        line_AO = Line(O_pt, A_pt, color=CLR_CREAM, stroke_width=2.5)
+        line_GB = Line(G_pt, B_pt, color=CLR_CREAM, stroke_width=2.5)
+        line_AB = DashedLine(A_pt, B_pt, color=CLR_MINT, stroke_width=2.5)
+
+        lbl_O = MathTex(r"O", color=WHITE, font_size=18, stroke_width=1).next_to(dot_O, DL, buff=0.05)
+        lbl_G = MathTex(r"G", color=CLR_ROSE, font_size=18, stroke_width=1).next_to(dot_G, DOWN, buff=0.1)
+        lbl_A = MathTex(r"A", color=CLR_ROSE, font_size=18, stroke_width=1).next_to(dot_A, UR, buff=0.05)
+        lbl_B = MathTex(r"B", color=CLR_ROSE, font_size=18, stroke_width=1).next_to(dot_B, LEFT, buff=0.1)
+        lbl_P = MathTex(r"P", color=CLR_MINT, font_size=20, stroke_width=1).next_to(dot_P, DOWN, buff=0.1)
+
+        fig_q2 = VGroup(ax, ellipse, line_AO, line_GB, line_AB, dot_O, dot_G, dot_A, dot_B, dot_P,
+                        lbl_O, lbl_G, lbl_A, lbl_B, lbl_P)
+        fig_q2.scale(0.85)
+        self.play(Create(fig_q2), run_time=2)
+
+        # ---- 详细解题过程 ----
+        s18_q2i_1 = VGroup(
+            Text("设 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"P(x,y)", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text("，由 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"AB\perp y", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text(" 轴得 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"B(0,y_0)", color=CLR_ROSE, font_size=18, stroke_width=1),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2i_1.next_to(q18_q2i, DOWN, buff=0.14, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_1))
+
+        s18_q2i_2 = VGroup(
+            Text("因 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"P", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text(" 在直线 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"AO", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text(" 上，故 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"\frac{y}{x}=\frac{y_0}{x_0}", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text("，即 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"x_0y=xy_0", color=CLR_CREAM, font_size=18, stroke_width=1),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2i_2.next_to(s18_q2i_1, DOWN, buff=0.06, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_2))
+
+        s18_q2i_3 = VGroup(
+            Text("因 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"P", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text(" 在直线 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"GB", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text(" 上，故 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"\frac{y}{x-t_0}=\frac{y_0}{-t_0}", color=CLR_CREAM, font_size=18, stroke_width=1),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2i_3.next_to(s18_q2i_2, DOWN, buff=0.06, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_3))
+
+        s18_q2i_4 = MathTex(r"\Rightarrow t_0y=-y_0(x-t_0)", color=CLR_CREAM, font_size=18, stroke_width=1)
+        s18_q2i_4.scale(1.2).next_to(s18_q2i_3, RIGHT, buff=0.1)
+        self.play(Write(s18_q2i_4))
+
+        s18_q2i_5 = VGroup(
+            Text("联立两式消去 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"y_0", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text("，得", font=FONT_CN, color=CLR_CREAM, font_size=16),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2i_5.next_to(s18_q2i_3, DOWN, buff=0.06, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_5))
+
+        s18_q2i_6 = MathTex(r"x_0=\frac{t_0x}{t_0-x},\quad y_0=\frac{t_0y}{t_0-x}",
+                            color=CLR_ROSE, font_size=18, stroke_width=1)
+        s18_q2i_6.scale(1.2).next_to(s18_q2i_5, DOWN, buff=0.06, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_6))
+
+        s18_q2i_7 = VGroup(
+            Text("代入 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            MathTex(r"\frac{x_0^2}{2}+y_0^2=1", color=CLR_CREAM, font_size=18, stroke_width=1),
+            Text("，整理得", font=FONT_CN, color=CLR_CREAM, font_size=16),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2i_7.next_to(s18_q2i_6, DOWN, buff=0.06, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_7))
+
+        s18_q2i_8 = MathTex(r"(t_0^2-2)x^2+2t_0^2y^2+4t_0x-2t_0^2=0",
+                            color=CLR_ROSE, font_size=18, stroke_width=1)
+        s18_q2i_8.scale(1.2).next_to(s18_q2i_7, DOWN, buff=0.1, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_8))
+
+        s18_q2i_9 = Text("二次项系数决定曲线类型：", font=FONT_CN, color=CLR_SKY, font_size=16)
+        s18_q2i_9.scale(1.2).next_to(s18_q2i_7, RIGHT, buff=1.3)
+        self.play(Write(s18_q2i_9))
+
+        s18_q2i_10 = VGroup(
+            MathTex(r"t_0^2>2", color=CLR_SKY, font_size=17, stroke_width=1),
+            Text("：x² 与 y² 系数同号，为椭圆；", font=FONT_CN, color=CLR_SKY, font_size=16),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2i_10.next_to(s18_q2i_9, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_10))
+
+        s18_q2i_11 = VGroup(
+            MathTex(r"t_0^2=2", color=CLR_SKY, font_size=17, stroke_width=1),
+            Text("：x² 项消失，为抛物线；", font=FONT_CN, color=CLR_SKY, font_size=16),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2i_11.next_to(s18_q2i_10, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_11))
+
+        s18_q2i_12 = VGroup(
+            MathTex(r"0<t_0^2<2", color=CLR_SKY, font_size=17, stroke_width=1),
+            Text("：x² 与 y² 系数异号，为双曲线。", font=FONT_CN, color=CLR_SKY, font_size=16),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2i_12.next_to(s18_q2i_11, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(s18_q2i_12))
+
+        self.wait(2)
+
+        # ============================================================
+        # 第 (2) 问 (ii)
+        # ============================================================
+        # 淡出第 (i) 问的解答，保留题干与示意图
+        self.play(FadeOut(q18_q2i, s18_q2i_1, s18_q2i_2, s18_q2i_3, s18_q2i_4,
+                          s18_q2i_5, s18_q2i_6, s18_q2i_7, s18_q2i_8, s18_q2i_9,
+                          s18_q2i_10, s18_q2i_11, s18_q2i_12, shift=LEFT))
+        self.wait(0.3)
+
+        q18_q2ii = Text("（ii）当 t₀ 为何值时，M 有中心点？",
+                        font=FONT_CN, color=CLR_SKY, font_size=20)
+        q18_q2ii.next_to(q18_q2, DOWN, buff=0.15, aligned_edge=LEFT)
+        self.play(Write(q18_q2ii))
+
+        q18_q2ii_2 = VGroup(
+            Text("当 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"M", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text(" 有中心点时，平移 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"M", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text(" 到 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"M'", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text("，使 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"O", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text(" 为 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"M'", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text(" 的中心点，说明 ", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"M'", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text(" 的形状。", font=FONT_CN, color=CLR_SKY, font_size=20),
+        ).arrange(RIGHT, buff=0.05)
+        q18_q2ii_2.next_to(q18_q2ii, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(q18_q2ii_2))
+
+        # ---- 解答 ----
+        s18_q2ii_1 = VGroup(
+            MathTex(r"(t_0^2-2)x^2+2t_0^2y^2+4t_0x-2t_0^2=0,\;",
+                            color=CLR_ROSE, font_size=18, stroke_width=1),
+            Text("轨迹方程可写成 ", font=FONT_CN, color=CLR_CREAM, font_size=18),
+            MathTex(r"Ax^2+Cy^2+Dx+F=0", color=CLR_CREAM, font_size=20, stroke_width=1),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2ii_1.next_to(q18_q2ii_2, DOWN, buff=0.18, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_1))
+
+        s18_q2ii_2 = VGroup(
+            Text("其中 ", font=FONT_CN, color=CLR_CREAM, font_size=18),
+            MathTex(r"A=t_0^2-2,\; C=2t_0^2,\; D=4t_0", color=CLR_CREAM, font_size=20, stroke_width=1),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2ii_2.next_to(s18_q2ii_1, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_2))
+
+        s18_q2ii_3 = Text("当 A,C 均不为零时，二次曲线有对称中心。", font=FONT_CN, color=CLR_CREAM, font_size=18)
+        s18_q2ii_3.scale(1.2).next_to(s18_q2ii_2, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_3))
+
+        s18_q2ii_4 = VGroup(
+            Text("若 ", font=FONT_CN, color=CLR_CREAM, font_size=18),
+            MathTex(r"t_0^2=2", color=CLR_CREAM, font_size=20, stroke_width=1),
+            Text("，则 ", font=FONT_CN, color=CLR_CREAM, font_size=18),
+            MathTex(r"A=0", color=CLR_CREAM, font_size=20, stroke_width=1),
+            Text("，方程退化为抛物线，", font=FONT_CN, color=CLR_CREAM, font_size=18),
+            MathTex(r"M", color=CLR_CREAM, font_size=20, stroke_width=1),
+            Text(" 无中心。", font=FONT_CN, color=CLR_CREAM, font_size=18),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2ii_4.next_to(s18_q2ii_3, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_4))
+
+        s18_q2ii_5 = VGroup(
+            Text("若 ", font=FONT_CN, color=CLR_ROSE, font_size=18),
+            MathTex(r"t_0^2\neq2", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text("，则 ", font=FONT_CN, color=CLR_ROSE, font_size=18),
+            MathTex(r"A,C", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 均不为零，", font=FONT_CN, color=CLR_ROSE, font_size=18),
+            MathTex(r"M", color=CLR_ROSE, font_size=20, stroke_width=1),
+            Text(" 有中心。", font=FONT_CN, color=CLR_ROSE, font_size=18),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2ii_5.next_to(s18_q2ii_4, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_5))
+
+        s18_q2ii_6 = Text("将轨迹方程按 x 配方（y 已为完全平方项）：", font=FONT_CN, color=CLR_CREAM, font_size=18)
+        s18_q2ii_6.scale(1.2).next_to(s18_q2ii_5, DOWN, buff=0.1, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_6))
+
+        s18_q2ii_7 = MathTex(r"(t_0^2-2)\left(x+\frac{2t_0}{t_0^2-2}\right)^2+2t_0^2y^2=\frac{2t_0^4}{t_0^2-2}",
+                             color=CLR_CREAM, font_size=18, stroke_width=1)
+        s18_q2ii_7.scale(1.2).next_to(s18_q2ii_6, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_7))
+
+        s18_q2ii_8 = VGroup(
+            Text("故对称中心为 ", font=FONT_CN, color=CLR_CREAM, font_size=18),
+            MathTex(r"\left(-\frac{2t_0}{t_0^2-2},\;0\right)", color=CLR_ROSE, font_size=20, stroke_width=1),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2ii_8.next_to(s18_q2ii_7, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_8))
+
+        s18_q2ii_9 = VGroup(
+            Text("平移使中心到原点：", font=FONT_CN, color=WHITE, font_size=18),
+            MathTex(r"x'=x+\frac{2t_0}{t_0^2-2},\; y'=y", color=WHITE, font_size=20, stroke_width=1),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2ii_9.next_to(s18_q2ii_5,RIGHT,buff=.8 )
+        self.play(Write(s18_q2ii_9))
+
+        s18_q2ii_10 = VGroup(
+            Text("代入整理得 ", font=FONT_CN, color=WHITE, font_size=18),
+            MathTex(r"M':\; \frac{(t_0^2-2)^2}{2t_0^4}x'^2+\frac{t_0^2-2}{t_0^2}y'^2=1", color=CLR_ROSE, font_size=18, stroke_width=1),
+        ).arrange(RIGHT, buff=0.05).scale(1.2)
+        s18_q2ii_10.next_to(s18_q2ii_9, DOWN, buff=0.1, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_10))
+
+        s18_q2ii_11 = Text("因此 M' 的形状为：", font=FONT_CN, color=CLR_SKY, font_size=18)
+        s18_q2ii_11.next_to(s18_q2ii_10, DOWN, buff=0.15, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_11))
+
+        s18_q2ii_12 = VGroup(
+            MathTex(r"t_0^2>2", color=CLR_SKY, font_size=19, stroke_width=1),
+            Text(" 时，M' 为椭圆；", font=FONT_CN, color=CLR_SKY, font_size=18),
+        ).arrange(RIGHT, buff=0.05)
+        s18_q2ii_12.next_to(s18_q2ii_11, DOWN, buff=0.06, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_12))
+
+        s18_q2ii_13 = VGroup(
+            MathTex(r"0<t_0^2<2", color=CLR_SKY, font_size=19, stroke_width=1),
+            Text(" 时，M' 为双曲线。", font=FONT_CN, color=CLR_SKY, font_size=18),
+        ).arrange(RIGHT, buff=0.05)
+        s18_q2ii_13.next_to(s18_q2ii_12, DOWN, buff=0.06, aligned_edge=LEFT)
+        self.play(Write(s18_q2ii_13))
 
         self.wait(2)
 
