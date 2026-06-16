@@ -2436,17 +2436,37 @@ class Q17(Scene):
         s17_6.next_to(s17_5, DOWN, buff=0.1, aligned_edge=LEFT)
         self.play(Write(s17_6))
 
-        s17_7 = MathTex(r"\therefore a^2+c^2=\frac{5}{2}ac",
+        s17_7 = MathTex(r"\therefore a^2+c^2=\frac{5}{2}ac,",
                         color=CLR_ROSE, font_size=28, stroke_width=1)
         s17_7.next_to(s17_6, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(Write(s17_7))
+
+        s17_7t = VGroup(
+            Text("两边同乘 ", font=FONT_CN, color=CLR_SKY, font_size=19),
+            MathTex(r"\frac{2}{c^2}", color=CLR_SKY, font_size=22, stroke_width=1),
+            Text("，令 ", font=FONT_CN, color=CLR_SKY, font_size=19),
+            MathTex(r"t=\frac{a}{c}", color=CLR_SKY, font_size=22, stroke_width=1),
+            Text("：", font=FONT_CN, color=CLR_SKY, font_size=19),
+        ).arrange(RIGHT, buff=0.05)
+        s17_7t.next_to(s17_7, RIGHT)
+        self.play(Write(s17_7t))
+
+        s17_7b_pre = MathTex(r"2\left(\frac{a}{c}\right)^2+2=5\frac{a}{c}",
+                             color=CLR_CREAM, font_size=26, stroke_width=1)
+        s17_7b_pre.next_to(s17_7[0][1], DOWN, buff=0.3, aligned_edge=LEFT)
+        self.play(Write(s17_7b_pre))
+
+        s17_7b = MathTex(r"\Rightarrow 2\left(\frac{a}{c}\right)^2-5\frac{a}{c}+2=0",
+                         color=CLR_CREAM, font_size=26, stroke_width=1)
+        s17_7b.next_to(s17_7b_pre, RIGHT, buff=0.08)
+        self.play(Write(s17_7b))
 
         s17_8 = VGroup(
             MathTex(r"\Rightarrow \frac{a}{c}=2", color=CLR_CREAM, font_size=28, stroke_width=1),
             Text(" 或 ", font=FONT_CN, color=CLR_CREAM, font_size=22),
             MathTex(r"\frac{1}{2}", color=CLR_CREAM, font_size=28, stroke_width=1),
         ).arrange(RIGHT, buff=0.05)
-        s17_8.next_to(s17_7, DOWN, buff=0.08, aligned_edge=LEFT)
+        s17_8.next_to(s17_7b, RIGHT, buff=0.08)
         self.play(Write(s17_8))
 
         s17_9 = VGroup(
@@ -2454,70 +2474,116 @@ class Q17(Scene):
             MathTex(r"\therefore \triangle ABC", color=CLR_ROSE, font_size=20, stroke_width=1),
             Text(" 为钝角三角形。", font=FONT_CN, color=CLR_SKY, font_size=17),
         ).arrange(RIGHT, buff=0.05)
-        s17_9.next_to(s17_8, DOWN, buff=0.1, aligned_edge=LEFT)
+        s17_9.next_to(s17_8, DOWN, buff=0.2).align_to(s17_6, LEFT)
         self.play(Write(s17_9))
+
+        s17_explain = VGroup(
+            VGroup(
+                Text("说明：由 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+                MathTex(r"\frac{a}{c}=2", color=CLR_MINT, font_size=18, stroke_width=1),
+                Text(" 或 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+                MathTex(r"\frac{1}{2}", color=CLR_MINT, font_size=18, stroke_width=1),
+                Text("，知 a、c 边长比为 2:1", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            ).arrange(RIGHT, buff=0.05),
+            VGroup(
+                Text("当 a=2c 时，代入 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+                MathTex(r"ac=b^2", color=CLR_MINT, font_size=18, stroke_width=1),
+                Text(" 得 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+                MathTex(r"b^2=2c^2", color=CLR_MINT, font_size=18, stroke_width=1),
+                Text("，即 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+                MathTex(r"b=\sqrt{2}\,c.", color=CLR_MINT, font_size=18, stroke_width=1),
+                Text("", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            ).arrange(RIGHT, buff=0.05),
+            VGroup(
+                Text("三边为 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+                MathTex(r"a=2c,", color=CLR_MINT, font_size=18, stroke_width=1),
+                MathTex(r"b=\sqrt{2}\,c,", color=CLR_MINT, font_size=18, stroke_width=1),
+                MathTex(r"c=c,", color=CLR_MINT, font_size=18, stroke_width=1),
+                Text("最大边为 a.", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            ).arrange(RIGHT, buff=0.05),
+            VGroup(
+                MathTex(r"\cos A=\frac{b^2+c^2-a^2}{2bc}=\frac{2c^2+c^2-4c^2}{2\sqrt{2}\,c^2}=\frac{-1}{2\sqrt{2}}<0",
+                        color=CLR_SKY, font_size=17, stroke_width=1),
+            ),
+            VGroup(
+                Text("故角 A 为钝角。", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            ),
+            VGroup(
+                Text("当 c=2a 时，同理可得 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+                MathTex(r"\cos C<0", color=CLR_MINT, font_size=18, stroke_width=1),
+                Text("，角 C 为钝角。", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            ).arrange(RIGHT, buff=0.05),
+            VGroup(
+                Text("因此 ", font=FONT_CN, color=CLR_CREAM, font_size=16),
+                MathTex(r"\triangle ABC", color=CLR_MINT, font_size=18, stroke_width=1),
+                Text(" 必为钝角三角形。", font=FONT_CN, color=CLR_CREAM, font_size=16),
+            ).arrange(RIGHT, buff=0.05),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.1).scale(1.2)
+        s17_explain.next_to(q17, DOWN, buff=.5,aligned_edge=LEFT)
+        self.play(Write(s17_explain))
 
         self.wait(2)
 
         # ---- 清理第 (1) 问 ----
-        # q1_objs = [s17_0, s17_1, s17_2, s17_3, s17_4, s17_5, s17_6, s17_7, s17_8, s17_9]
-        # self.play(FadeOut(VGroup(*q1_objs), shift=RIGHT))
-        # self.wait(0.3)
+        q1_objs = [s17_0, s17_1, s17_2, s17_3, s17_5, s17_6, s17_7, s17_7t, s17_7b_pre, s17_7b, s17_8, s17_9, s17_explain]
+        self.play(FadeOut(VGroup(*q1_objs), shift=RIGHT))
+        self.wait(0.3)
 
         # ============================================================
         # 第 (2) 问：求周长
         # ============================================================
-        # s17_q2 = Text("（2）解：", font=FONT_CN, color=CLR_SKY, font_size=20)
-        # s17_q2.next_to(q17, DOWN, buff=0.35, aligned_edge=LEFT)
-        # self.play(Write(s17_q2))
+        s17_q2_1 = MathTex(r"\because S=\frac{1}{2}ac\sin B=\frac{\sqrt{7}}{4},",
+                           color=CLR_CREAM, font_size=25, stroke_width=1)
+        s17_q2_1.next_to(q17, DOWN, buff=0.3, aligned_edge=LEFT)
+        self.play(Write(s17_q2_1))
 
-        # s17_q2_1 = MathTex(r"\because S=\frac{1}{2}ac\sin B=\frac{7}{4}",
-        #                    color=CLR_CREAM, font_size=20, stroke_width=1)
-        # s17_q2_1.next_to(s17_q2, DOWN, buff=0.12, aligned_edge=LEFT)
-        # self.play(Write(s17_q2_1))
+        s17_q2_2 = VGroup(
+            Text("又", font=FONT_CN, color=CLR_SKY, font_size=20),
+            MathTex(r"\sin B=\sqrt{1-\cos^2 B}=\frac{\sqrt{7}}{4}", color=CLR_SKY, font_size=25, stroke_width=1),            
+            ).arrange(RIGHT, buff=0.1)
+        s17_q2_2.next_to(s17_q2_1, RIGHT, buff=0.12)
+        self.play(Write(s17_q2_2))
 
-        # s17_q2_2 = VGroup(
-        #     MathTex(r"\sin B=\sqrt{1-\cos^2 B}=\frac{\sqrt{7}}{4}", color=CLR_SKY, font_size=19, stroke_width=1),
-        #     MathTex(r"\Rightarrow ac=2\sqrt{7}", color=CLR_ROSE, font_size=20, stroke_width=1),
-        # ).arrange(RIGHT, buff=0.25)
-        # s17_q2_2.next_to(s17_q2_1, DOWN, buff=0.12, aligned_edge=LEFT)
-        # self.play(Write(s17_q2_2))
+        s17_q2_3 = VGroup(
+            MathTex(r"\therefore ac=2,", color=CLR_ROSE, font_size=25, stroke_width=1),
+            MathTex(r"\, b^2 = ac = 2", color=CLR_SKY, font_size=25, stroke_width=1),
+            Text("（由第（1）问）", font=FONT_CN, color=CLR_SKY, font_size=17),
+                ).arrange(RIGHT, buff=0.15)
+        s17_q2_3.next_to(s17_q2_1, DOWN, buff=0.12, aligned_edge=LEFT)
+        self.play(Write(s17_q2_3))
 
-        # s17_q2_3 = VGroup(
-        #     MathTex(r"\because ac=b^2", color=CLR_SKY, font_size=19, stroke_width=1),
-        #     MathTex(r"\therefore b^2=2\sqrt{7}", color=CLR_ROSE, font_size=19, stroke_width=1),
-        # ).arrange(RIGHT, buff=0.3)
-        # s17_q2_3.next_to(s17_q2_2, DOWN, buff=0.12, aligned_edge=LEFT)
-        # self.play(Write(s17_q2_3))
+        s17_q2_4 = VGroup(
+            Text("由第（1）问: ", font=FONT_CN, color=CLR_SKY, font_size=17),
+            MathTex(r"a^2+c^2=\frac{5}{2}ac=5", color=CLR_CREAM, font_size=25, stroke_width=1),
+        
+        ).arrange(RIGHT, buff=0.08)
+        s17_q2_4.next_to(s17_q2_3, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s17_q2_4))
 
-        # s17_q2_4 = MathTex(r"a^2+c^2=\frac{5}{2}ac=5\sqrt{7}",
-        #                    color=CLR_CREAM, font_size=20, stroke_width=1)
-        # s17_q2_4.next_to(s17_q2_3, DOWN, buff=0.1, aligned_edge=LEFT)
-        # self.play(Write(s17_q2_4))
+        s17_q2_5 = MathTex(r"\because(a+c)^2=a^2+c^2+2ac=9",
+                           color=CLR_ROSE, font_size=25, stroke_width=1)
+        s17_q2_5.next_to(s17_q2_4, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s17_q2_5))
 
-        # s17_q2_5 = MathTex(r"(a+c)^2=a^2+c^2+2ac=9\sqrt{7}",
-        #                    color=CLR_ROSE, font_size=20, stroke_width=1)
-        # s17_q2_5.next_to(s17_q2_4, DOWN, buff=0.1, aligned_edge=LEFT)
-        # self.play(Write(s17_q2_5))
+        s17_q2_6 = MathTex(r"\therefore a+c=3",
+                           color=CLR_CREAM, font_size=25, stroke_width=1)
+        s17_q2_6.next_to(s17_q2_5, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s17_q2_6))
 
-        # s17_q2_6 = MathTex(r"\therefore a+c=3\sqrt[4]{7}",
-        #                    color=CLR_CREAM, font_size=20, stroke_width=1)
-        # s17_q2_6.next_to(s17_q2_5, DOWN, buff=0.1, aligned_edge=LEFT)
-        # self.play(Write(s17_q2_6))
+        s17_q2_6b = MathTex(r"\because b=\sqrt{2}",
+                            color=CLR_CREAM, font_size=25, stroke_width=1)
+        s17_q2_6b.next_to(s17_q2_6, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s17_q2_6b))
 
-        # s17_q2_6b = MathTex(r"b=\sqrt{2\sqrt{7}}=\sqrt{2}\sqrt[4]{7}",
-        #                     color=CLR_CREAM, font_size=20, stroke_width=1)
-        # s17_q2_6b.next_to(s17_q2_6, DOWN, buff=0.08, aligned_edge=LEFT)
-        # self.play(Write(s17_q2_6b))
+        s17_q2_7 = VGroup(
+            MathTex(r"\therefore", color=CLR_ROSE, font_size=22, stroke_width=1),
+            Text("周长", font=FONT_CN, color=CLR_ROSE, font_size=20),
+            MathTex(r"=a+b+c=3+\sqrt{2}", color=CLR_ROSE, font_size=22, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+        s17_q2_7.next_to(s17_q2_6b, DOWN, buff=0.2, aligned_edge=LEFT)
+        self.play(Write(s17_q2_7))
 
-        # s17_q2_7 = VGroup(
-        #     Text("周长", font=FONT_CN, color=CLR_ROSE, font_size=20),
-        #     MathTex(r"=a+b+c=(3+\sqrt{2})\sqrt[4]{7}", color=CLR_ROSE, font_size=22, stroke_width=1),
-        # ).arrange(RIGHT, buff=0.08)
-        # s17_q2_7.next_to(s17_q2_6b, DOWN, buff=0.12, aligned_edge=LEFT)
-        # self.play(Write(s17_q2_7))
-
-        # self.wait(2)
+        self.wait(2)
 
 
 class TrirPyrCir(Scene):
