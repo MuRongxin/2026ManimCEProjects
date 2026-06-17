@@ -1334,7 +1334,7 @@ class Q11(Scene):
         b_elements =VGroup (e11_B1, e11_B2, e11_B3, e11_B4, e11_B5,
                       e11_B6, e11_B7, e11_B8, e11_B9, e11_B10)
         self.play(ReplacementTransform(b_elements, optionB))
-        q11.add(optionB)
+        
 
         self.play(FadeIn(q11[1][2],shift=RIGHT))
 
@@ -1344,6 +1344,7 @@ class Q11(Scene):
             MathTex(r"\Delta=-32k^2+64=0\;\Rightarrow\; k=\sqrt{2}", color=CLR_ROSE, stroke_width=1, font_size=28),
         ).arrange(RIGHT, buff=0.08).scale(1.1)
 
+        self.wait()
         self.play(q11.animate.shift(LEFT*5))
         e11_C1.next_to(q11, RIGHT, buff=0.5,aligned_edge=UP)
 
@@ -3175,3 +3176,247 @@ class TrirPyrCir(Scene):
             rate_func=there_and_back,
         )
         self.wait(1)
+
+
+class Q19(Scene):
+    def construct(self):
+        title, titlePos = AddTitle(self, "函数与导数", font_size=31)
+        self.play(title)
+
+        q19 = problems.problem_19()
+        q19.scale(0.9)
+        q19.next_to(titlePos, DOWN, buff=.3).align_to(titlePos, LEFT)
+        self.play(Write(q19))
+        self.wait(2)
+
+        # 保留题干，淡出 (2)(3) 小问
+        self.play(LaggedStart(
+            FadeOut(q19[3],shift=LEFT),
+            FadeOut(q19[4],shift=LEFT)
+        ))
+        self.wait(0.3)
+
+        # 第 (1) 问  
+        # ---- 解答 ----
+        s19_1 = VGroup(
+            Text("由 ", font=FONT_CN, color=CLR_CREAM, font_size=24),
+            MathTex(r"f(x)=xe^x+ax+b", color=CLR_CREAM, font_size=26, stroke_width=1),
+            Text("，得", font=FONT_CN, color=CLR_CREAM, font_size=24),
+        ).arrange(RIGHT, buff=0.08)
+        s19_1.next_to(q19[2], DOWN, buff=0.25, aligned_edge=LEFT)
+        self.play(Write(s19_1))
+
+        s19_2 = MathTex(r"f'(x)=(x+1)e^x+a", color=CLR_CREAM, font_size=28, stroke_width=1)
+        s19_2.next_to(s19_1, DOWN, buff=0.12, aligned_edge=LEFT)
+        self.play(Write(s19_2))
+
+        s19_3 = VGroup(
+            Text("切线 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"y=-2x+1", color=CLR_SKY, font_size=28, stroke_width=1),
+            Text(" 在 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"x=0", color=CLR_SKY, font_size=28, stroke_width=1),
+            Text(" 处斜率为 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"-2", color=CLR_SKY, font_size=28, stroke_width=1),
+            Text("，且过点 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"(0,1)", color=CLR_SKY, font_size=28, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+        s19_3.next_to(s19_2, DOWN, buff=0.12, aligned_edge=LEFT)
+        self.play(Write(s19_3))
+
+        s19_4 = MathTex(r"\therefore f'(0)=1+a=-2,\quad f(0)=b=1", color=CLR_ROSE, font_size=28, stroke_width=1)
+        s19_4.next_to(s19_3, DOWN, buff=0.12, aligned_edge=LEFT)
+        self.play(Write(s19_4))
+
+        s19_5 = MathTex(r"\Rightarrow a=-3,\; b=1", color=CLR_ROSE, font_size=32, stroke_width=1)
+        s19_5.next_to(s19_4, DOWN, buff=0.12, aligned_edge=LEFT)
+        self.play(Write(s19_5))
+
+        self.wait(2)
+
+        # 第 (2) 问
+        self.play(FadeOut(s19_1, s19_2, s19_3, s19_4, s19_5, q19[2], shift=LEFT))
+        self.wait(0.3)
+        q19[3].next_to(q19[1], DOWN, buff=0.35).align_to(titlePos, LEFT)
+        self.play(FadeIn(q19[3], shift=RIGHT))
+        self.wait(0.3)
+
+        # ---- 第 (2) 问解答 ----
+        # 左列：构造辅助函数并分析单调性
+        s19_q2_1 = VGroup(
+            Text("由（1）知 ", font=FONT_CN, color=CLR_CREAM, font_size=24),
+            MathTex(r"f(x)=xe^x-3x+1", color=CLR_CREAM, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q2_2 = Text("原不等式可化为", font=FONT_CN, color=CLR_CREAM, font_size=24)
+
+        s19_q2_3 = MathTex(r"f(x+m)-f(x)-m>0", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q2_4 = VGroup(
+            Text("其中 ", font=FONT_CN, color=CLR_CREAM, font_size=24),
+            MathTex(r"-m=-(x+m)+x", color=CLR_CREAM, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q2_5 = MathTex(r"\bigl[f(x+m)-(x+m)\bigr]-\bigl[f(x)-x\bigr]>0", color=CLR_SKY, font_size=26, stroke_width=1)
+
+        s19_q2_6 = VGroup(
+            Text("设 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"g(x)=f(x)-x=xe^x-4x+1", color=CLR_SKY, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q2_7 = MathTex(r"\Rightarrow g(x+m)>g(x)\quad(x>0)", color=CLR_SKY, font_size=26, stroke_width=1)
+
+        s19_q2_8 = MathTex(r"g'(x)=(x+1)e^x-4", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q2_9 = MathTex(r"g''(x)=(x+2)e^x>0\;(x>0)", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q2_10 = Text("故 g'(x) 在 (0,+∞) 上单调递增", font=FONT_CN, color=CLR_CREAM, font_size=24)
+
+        left_col = VGroup(s19_q2_1, s19_q2_2, s19_q2_3, s19_q2_4, s19_q2_5, s19_q2_6, s19_q2_7, s19_q2_8, s19_q2_9, s19_q2_10)
+        left_col.arrange(DOWN, aligned_edge=LEFT, buff=0.10)
+        left_col.next_to(q19[3], DOWN, buff=0.25).align_to(titlePos, LEFT)
+
+        # 右列：利用 h(x) 求 m 的范围
+        s19_q2_r1 = VGroup(
+            Text("令 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"h(x)=g(x+m)-g(x)", color=CLR_SKY, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q2_r2 = MathTex(r"h'(x)=g'(x+m)-g'(x)", color=CLR_SKY, font_size=26, stroke_width=1)
+
+        s19_q2_r3 = VGroup(
+            Text("已知 ，", font=FONT_CN, color=CLR_CREAM, font_size=24),
+            MathTex(r"g'(x)", color=CLR_CREAM, font_size=26, stroke_width=1),
+            Text(" 在 ", font=FONT_CN, color=CLR_CREAM, font_size=24),
+            MathTex(r"(0,+\infty)", color=CLR_CREAM, font_size=26, stroke_width=1),
+            Text(" 递增", font=FONT_CN, color=CLR_CREAM, font_size=24),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q2_r4 = VGroup(
+            Text("当 ", font=FONT_CN, color=CLR_CREAM, font_size=24),
+            MathTex(r"m>0", color=CLR_CREAM, font_size=26, stroke_width=1),
+            Text(" 时，", font=FONT_CN, color=CLR_CREAM, font_size=24),
+            MathTex(r"x+m>x", color=CLR_CREAM, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q2_r5 = MathTex(r"g'(x+m)>g'(x)", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q2_r6 = MathTex(r"\Rightarrow h'(x)>0", color=CLR_SKY, font_size=26, stroke_width=1)
+
+        s19_q2_r7 = Text("故 h(x) 在 (0,+∞) 上递增", font=FONT_CN, color=CLR_SKY, font_size=24)
+
+        s19_q2_r8 = MathTex(r"\therefore h(x)>h(0)=m(e^m-4)", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q2_r9 = VGroup(
+            Text("需 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"h(0)\ge0", color=CLR_SKY, font_size=26, stroke_width=1),
+            Text("，即 ", font=FONT_CN, color=CLR_SKY, font_size=24),
+            MathTex(r"e^m\ge4", color=CLR_SKY, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q2_r10 = MathTex(r"\Rightarrow m\ge\ln4=2\ln2", color=CLR_SKY, font_size=26, stroke_width=1)
+
+        s19_q2_r11 = VGroup(
+            Text("当 ", font=FONT_CN, color=CLR_CREAM, font_size=24),
+            MathTex(r"m\le0", color=CLR_CREAM, font_size=26, stroke_width=1),
+            Text(" 时不成立", font=FONT_CN, color=CLR_CREAM, font_size=24),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q2_r12 = MathTex(r"\therefore m\in[2\ln2,\;+\infty)", color=CLR_ROSE, font_size=30, stroke_width=1)
+
+        right_col = VGroup(s19_q2_r1, s19_q2_r2, s19_q2_r3, s19_q2_r4, s19_q2_r5, s19_q2_r6, s19_q2_r7, s19_q2_r8, s19_q2_r9, s19_q2_r10, s19_q2_r11, s19_q2_r12)
+        right_col.arrange(DOWN, aligned_edge=LEFT, buff=0.08)
+        right_col.next_to(left_col, RIGHT, buff=0.6).align_to(left_col, UP)
+
+        # 先播放左列，再播放右列
+        self.play(LaggedStart(*[Write(m) for m in left_col], lag_ratio=0.4))
+        self.wait(0.2)
+        self.play(LaggedStart(*[Write(m) for m in right_col], lag_ratio=0.4))
+
+        self.wait(2)
+
+        # 第 (3) 问前置准备：移除第 (2) 问题目与解答，淡入第 (3) 问题目
+        self.play(FadeOut(q19[3], left_col, right_col, shift=LEFT))
+        self.wait(0.3)
+        q19[4].next_to(q19[1], DOWN, buff=0.35).align_to(titlePos, LEFT)
+        self.play(FadeIn(q19[4], shift=RIGHT))
+        self.wait(0.3)
+
+        # ---- 第 (3) 问解答 ----
+        # 左列：构造函数并求导
+        s19_q3_1 = VGroup(
+            Text("由（1）知 ", font=FONT_CN, color=CLR_CREAM, font_size=21),
+            MathTex(r"f(x)=xe^x-3x+1", color=CLR_CREAM, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q3_2 = VGroup(
+            Text("设 ", font=FONT_CN, color=CLR_SKY, font_size=21),
+            MathTex(r"F(x)=f(x+k)+f(k-x)-2f(k)", color=CLR_SKY, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q3_3 = Text("代入化简得", font=FONT_CN, color=CLR_CREAM, font_size=21)
+
+        s19_q3_4 = MathTex(r"F(x)=(x+k)e^{x+k}+(k-x)e^{k-x}-2ke^k", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_5 = VGroup(
+            Text("两边除以 ", font=FONT_CN, color=CLR_CREAM, font_size=21),
+            MathTex(r"e^k", color=CLR_CREAM, font_size=26, stroke_width=1),
+            Text("，设", font=FONT_CN, color=CLR_CREAM, font_size=21),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q3_6 = MathTex(r"G(x)=e^{-k}F(x)=(x+k)e^x+(k-x)e^{-x}-2k", color=CLR_SKY, font_size=26, stroke_width=1)
+
+        s19_q3_7 = MathTex(r"G(0)=0", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_8 = Text("原不等式等价于 G(x)>0 (x>0)", font=FONT_CN, color=CLR_CREAM, font_size=21)
+
+        s19_q3_9 = MathTex(r"G'(x)=(x+k+1)e^x-(k-x+1)e^{-x}", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_10 = MathTex(r"G'(0)=0", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_11 = MathTex(r"G''(x)=(x+k+2)e^x+(k-x+2)e^{-x}", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        left_col_q3 = VGroup(s19_q3_1, s19_q3_2, s19_q3_3, s19_q3_4, s19_q3_5, s19_q3_6, s19_q3_7, s19_q3_8, s19_q3_9, s19_q3_10, s19_q3_11)
+        left_col_q3.arrange(DOWN, aligned_edge=LEFT, buff=0.1)
+        left_col_q3.next_to(q19[4], DOWN, buff=0.25).align_to(titlePos, LEFT)
+
+        # 右列：分析单调性求 k 的范围
+        s19_q3_r1 = MathTex(r"G'''(x)=(x+k+3)e^x-(k-x+3)e^{-x}", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_r2 = Text("当 x>0 时：", font=FONT_CN, color=CLR_CREAM, font_size=21)
+
+        s19_q3_r3 = MathTex(r"(x+k+3)e^x>k+3", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_r4 = MathTex(r"(k-x+3)e^{-x}<k+3", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_r5 = Text("故 G'''(x)>0，G'' 递增", font=FONT_CN, color=CLR_SKY, font_size=21)
+
+        s19_q3_r6 = MathTex(r"G''(x)>G''(0)=2(k+2)", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_r7 = VGroup(
+            Text("需 ", font=FONT_CN, color=CLR_SKY, font_size=21),
+            MathTex(r"G''(0)\ge0", color=CLR_SKY, font_size=26, stroke_width=1),
+            Text("，即 ", font=FONT_CN, color=CLR_SKY, font_size=21),
+            MathTex(r"k\ge-2", color=CLR_SKY, font_size=26, stroke_width=1),
+        ).arrange(RIGHT, buff=0.08)
+
+        s19_q3_r8 = Text("当 k≥-2 时，G''>0，G' 递增，又 G'(0)=0", font=FONT_CN, color=CLR_CREAM, font_size=21)
+
+        s19_q3_r9 = MathTex(r"\Rightarrow G'(x)>0,\;G(x)>0\;(x>0)", color=CLR_CREAM, font_size=26, stroke_width=1)
+
+        s19_q3_r10 = Text("当 k<-2 时，G''(0)<0", font=FONT_CN, color=CLR_CREAM, font_size=21)
+
+        s19_q3_r11 = Text("在 0 附近 G'<0，G 递减，G(x)<0", font=FONT_CN, color=CLR_CREAM, font_size=21)
+
+        s19_q3_r12 = MathTex(r"\therefore k_{\min}=-2", color=CLR_ROSE, font_size=32, stroke_width=1)
+
+        right_col_q3 = VGroup(s19_q3_r1, s19_q3_r2, s19_q3_r3, s19_q3_r4, s19_q3_r5, s19_q3_r6, s19_q3_r7, s19_q3_r8, s19_q3_r9, s19_q3_r10, s19_q3_r11, s19_q3_r12)
+        right_col_q3.arrange(DOWN, aligned_edge=LEFT, buff=0.1)
+        right_col_q3.next_to(left_col_q3, RIGHT, buff=0.5).align_to(left_col_q3, UP)
+
+        # 先播放左列，再播放右列
+        self.play(LaggedStart(*[Write(m) for m in left_col_q3], lag_ratio=0.4))
+        self.wait(0.2)
+        self.play(LaggedStart(*[Write(m) for m in right_col_q3], lag_ratio=0.4))
+
+        self.wait(2)
+

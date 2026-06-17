@@ -1090,7 +1090,6 @@ def problem_19(text_size: int = DEFAULT_TEXT_SIZE,
         _M("(0,f(0))", font_size=ms),
         _T(" 处的切线为 ", font_size=ts),
         _M("y=-2x+1", font_size=ms),
-        _T("．", font_size=ts),
     )
     if wrap_after is not None:
         stem_body = _wrap_stem(stem_body, wrap_after)
