@@ -1,0 +1,9 @@
+# This file is used internally by FFMPEG.
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/2160p60/partial_movie_files/Q15/34461856_403754775_2358810818.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/2160p60/partial_movie_files/Q15/3166950890_2037052710_882398460.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/2160p60/partial_movie_files/Q15/3166950890_2391161538_3753001250.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/2160p60/partial_movie_files/Q15/3166950890_2574473371_2572084742.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/2160p60/partial_movie_files/Q15/3166950890_3344587649_4227988317.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/2160p60/partial_movie_files/Q15/3166950890_4079250704_3868304871.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/2160p60/partial_movie_files/Q15/3166950890_665645576_780915247.mp4'
+file 'file:/home/lrxin/文档/IGG/2026Math/ManimCEProject/media/videos/exam_scene/2160p60/partial_movie_files/Q15/3166950890_2872842549_2900074769.mp4'
